@@ -1,3 +1,5 @@
+import logoImage from "../assets/d3fb022417f356c7ca48d8ab4a07b126226cc9b4.png";
+
 export function AnimatedBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -85,6 +87,38 @@ export function AnimatedBackground() {
           <animate attributeName="y1" values="10%;5%;10%" dur="8s" repeatCount="indefinite" />
         </line>
       </svg>
+
+      {/* Magic Background Logo */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+        <div className="relative w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] opacity-[0.03] dark:opacity-[0.05] animate-pulse-glow">
+          <img 
+            src={logoImage} 
+            alt="" 
+            className="w-full h-full object-contain animate-slow-spin filter blur-[2px]"
+          />
+          {/* Magic Ring */}
+          <div className="absolute inset-0 border-2 border-brand-cyan/20 rounded-full animate-portal-swirl scale-110" />
+          <div className="absolute inset-0 border border-brand-purple/10 rounded-full animate-reverse-spin scale-125" />
+        </div>
+      </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes slow-spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes reverse-spin {
+          from { transform: rotate(360deg); }
+          to { transform: rotate(0deg); }
+        }
+        @keyframes pulse-glow {
+          0%, 100% { transform: scale(1); opacity: 0.03; filter: blur(2px); }
+          50% { transform: scale(1.05); opacity: 0.08; filter: blur(4px); }
+        }
+        .animate-slow-spin { animation: slow-spin 60s linear infinite; }
+        .animate-reverse-spin { animation: reverse-spin 40s linear infinite; }
+        .animate-pulse-glow { animation: pulse-glow 10s ease-in-out infinite; }
+      `}} />
 
       {/* Scanning Line Effect */}
       <div className="absolute inset-0 overflow-hidden">
