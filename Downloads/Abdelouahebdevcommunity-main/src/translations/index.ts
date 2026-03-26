@@ -3,7 +3,7 @@ export const translations = {
   en: {
     // Navigation & Common
     welcome: "Welcome to my portfolio",
-    name: "Benachi Abdelouheb",
+    name: "Abdelouaheb Dev",
     title: "Web and Mobile Developer",
     location: "Algiers, Algeria",
     getInTouch: "Get in Touch",
@@ -87,7 +87,7 @@ export const translations = {
   fr: {
     // Navigation & Common
     welcome: "Bienvenue dans mon portfolio",
-    name: "Benachi Abdelouheb",
+    name: "Abdelouaheb Dev",
     title: "Développeur Web et Mobile",
     location: "Alger, Algérie",
     getInTouch: "Me Contacter",
