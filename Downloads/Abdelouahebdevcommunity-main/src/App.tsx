@@ -17,7 +17,7 @@ function AppContent() {
   const { t } = useLanguage();
 
   return (
-    <Router>
+    <Router basename="/Abdelouaheb-Dev-frantend">
       <div className="min-h-screen">
         <style dangerouslySetInnerHTML={{ __html: `
           @keyframes portal-swirl {
