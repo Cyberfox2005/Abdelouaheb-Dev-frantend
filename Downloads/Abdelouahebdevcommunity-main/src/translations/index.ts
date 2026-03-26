@@ -58,6 +58,10 @@ export const translations = {
     teamTitle: "My Team",
     teamDescription: "Meet the brilliant minds I collaborate with to build extraordinary digital experiences.",
 
+    // Services
+    servicesTitle: "Our Services",
+    servicesDescription: "Explore our magical offerings - from technical sorcery to digital alchemy.",
+
     // Contact
     contactTitle: "Get In Touch",
     contactDescription: "Have a project in mind? Let's work together to create something amazing.",
@@ -137,6 +141,10 @@ export const translations = {
     // Team
     teamTitle: "Mon Équipe",
     teamDescription: "Rencontrez les esprits brillants avec lesquels je collabore pour créer des expériences numériques extraordinaires.",
+
+    // Services
+    servicesTitle: "Nos Services",
+    servicesDescription: "Explorez nos offres magiques - de la sorcellerie technique à l'alchimie numérique.",
 
     // Contact
     contactTitle: "Contactez-moi",

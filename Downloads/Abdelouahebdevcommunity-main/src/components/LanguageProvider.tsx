@@ -1,6 +1,11 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { translations, Language, TranslationKey } from '../translations';
 
+const isRTL = (lang: Language): boolean => {
+  const rtlLanguages: string[] = ['ar', 'he', 'fa'];
+  return rtlLanguages.includes(lang);
+};
+
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
@@ -27,7 +32,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (mounted && typeof document !== 'undefined') {
       document.documentElement.lang = language;
-      document.documentElement.dir = language === 'rtl' ? 'rtl' : 'ltr';
+      const currentDir = isRTL(language) ? 'rtl' : 'ltr';
+      document.documentElement.dir = currentDir;
     }
   }, [language, mounted]);
 
@@ -42,7 +48,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     return translations[language][key] || translations.en[key] || key;
   };
 
-  const dir = language === 'rtl' ? 'rtl' : 'ltr';
+  const dir = isRTL(language) ? 'rtl' : 'ltr';
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t, dir }}>

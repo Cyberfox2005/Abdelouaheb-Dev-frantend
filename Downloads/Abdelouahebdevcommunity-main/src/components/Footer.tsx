@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail ,Discord} from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 import { useLanguage } from "./LanguageProvider";
 
 export function Footer() {

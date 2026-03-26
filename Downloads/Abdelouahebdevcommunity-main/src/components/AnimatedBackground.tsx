@@ -89,23 +89,9 @@ export function AnimatedBackground() {
       {/* Scanning Line Effect */}
       <div className="absolute inset-0 overflow-hidden">
         <div 
-          className="absolute h-px w-full bg-gradient-to-r from-transparent via-brand-cyan to-transparent opacity-30"
-          style={{
-            animation: 'scan 8s linear infinite',
-          }}
+          className="absolute h-px w-full bg-gradient-to-r from-transparent via-brand-cyan to-transparent opacity-30 animate-scan"
         />
       </div>
-      
-      <style jsx="true">{`
-        @keyframes scan {
-          0% {
-            top: -2px;
-          }
-          100% {
-            top: 100%;
-          }
-        }
-      `}</style>
     </div>
   );
 }

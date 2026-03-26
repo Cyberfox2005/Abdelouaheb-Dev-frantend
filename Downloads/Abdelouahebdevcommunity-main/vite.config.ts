@@ -5,6 +5,7 @@
   import path from 'path';
 
   export default defineConfig({
+    base: '/Abdelouaheb-Dev-frantend/',
     plugins: [react(), tailwindcss()],
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
