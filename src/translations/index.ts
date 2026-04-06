@@ -140,6 +140,8 @@ export const translations = {
     // Service Manager
     addToPortfolio: "Request Enchantment",
     inPortfolio: "In Portfolio",
+    addToBasket: "Add to Basket",
+    inBasket: "In Basket",
     myServices: "My Services",
     serviceStatus: "Status",
     pending: "Pending Magic",
@@ -291,6 +293,8 @@ export const translations = {
     // Service Manager
     addToPortfolio: "Demander l'Enchantement",
     inPortfolio: "Dans le Portfolio",
+    addToBasket: "Ajouter au Panier",
+    inBasket: "Dans le Panier",
     myServices: "Mes Services",
     serviceStatus: "Statut",
     pending: "Magie en Attente",

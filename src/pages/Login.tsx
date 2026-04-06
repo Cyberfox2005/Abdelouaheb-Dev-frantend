@@ -6,8 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../co
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { useLanguage } from "../components/LanguageProvider";
-import { auth } from "../lib/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -31,6 +30,8 @@ export function LoginPage() {
 
   const canSubmit = !errors.email && !errors.password;
 
+  const { login } = useAuth();
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched({ email: true, password: true });
@@ -38,7 +39,19 @@ export function LoginPage() {
     
     setSubmitting(true);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || "Login failed");
+      }
+      
+      login(data.token, data.user);
+      
       toast.success(t("loginSuccess") || "Logged in successfully!");
       navigate("/profile");
     } catch (error: any) {

@@ -43,80 +43,80 @@ export type Service = {
 
 export const services: Service[] = [
   {
-    id: "full-stack-dev",
-    name: "Full-Stack Sorcery",
-    category: "Web & Enterprise Solutions",
+    id: "react-frontend",
+    name: "React Frontend",
+    category: "Web Frontend",
     icon: Globe,
-    description: "Architecting powerful digital ecosystems. From lightning-fast React frontends to robust Node.js and Laravel backends, we build scalable platforms that drive innovation.",
+    description: "A highly responsive, interactive, and beautifully designed frontend using React.js. Perfect for modern web applications.",
     specs: [
-      { name: "React / Next.js", level: 98 },
-      { name: "Node.js / Express", level: 95 },
-      { name: "Laravel / PHP", level: 92 },
-      { name: "Database Engineering", level: 90 }
+      { name: "UI/UX Design", level: 95 },
+      { name: "Performance", level: 98 },
+      { name: "State Management", level: 90 },
+      { name: "Responsiveness", level: 100 }
     ],
     facts: [
-      { icon: Zap, label: "Core Element", value: "Logic & Flow" },
-      { icon: Layers, label: "Specialty", value: "Complex Systems" },
-      { icon: Sparkles, label: "Experience", value: "Full-Cycle Magic" }
+      { icon: Zap, label: "Core Element", value: "Components" },
+      { icon: Layers, label: "Specialty", value: "Fast Rendering" },
+      { icon: Sparkles, label: "Experience", value: "Dynamic UI" }
     ],
-    accentColor: "amber-500"
+    accentColor: "blue-400"
   },
   {
-    id: "cyber-ai",
-    name: "Cyber & AI Divination",
-    category: "Security & Intelligence",
+    id: "laravel-backend",
+    name: "Laravel Backend",
+    category: "Web Backend",
     icon: ShieldCheck,
-    description: "Integrating advanced AI concepts with impenetrable security. We protect your digital realm while harnessing the power of artificial intelligence to optimize your future.",
+    description: "Robust PHP backend using the Laravel framework. Comes with secure REST APIs, robust database structure, and administrative control.",
     specs: [
-      { name: "Cyber Security Concepts", level: 94 },
-      { name: "AI & Neural Patterns", level: 90 },
-      { name: "Threat Neutralization", level: 88 },
-      { name: "Secure Integration", level: 92 }
+      { name: "API Development", level: 95 },
+      { name: "Database Design", level: 90 },
+      { name: "Security", level: 98 },
+      { name: "MVC Architecture", level: 94 }
     ],
     facts: [
-      { icon: Cpu, label: "Core Element", value: "Neural Pulse" },
-      { icon: ShieldCheck, label: "Specialty", value: "Vault Security" },
-      { icon: Wand2, label: "Focus", value: "Future-Proofing" }
+      { icon: Cpu, label: "Core Element", value: "PHP Eloquent" },
+      { icon: ShieldCheck, label: "Specialty", value: "Data Vault" },
+      { icon: Wand2, label: "Focus", value: "Reliability" }
     ],
-    accentColor: "indigo-500"
+    accentColor: "red-500"
   },
   {
-    id: "mobile-system",
-    name: "Mobile & System Alchemy",
-    category: "Cross-Platform & Hardware",
+    id: "node-backend",
+    name: "Node.js Backend",
+    category: "Web Backend",
+    icon: Zap,
+    description: "Lightning-fast, highly scalable backend built on Node.js and Express. Ideal for real-time applications and microservices.",
+    specs: [
+      { name: "Async Processing", level: 98 },
+      { name: "Scalability", level: 95 },
+      { name: "Real-time Sockets", level: 90 },
+      { name: "API Design", level: 92 }
+    ],
+    facts: [
+      { icon: Cpu, label: "Core Element", value: "Event Loop" },
+      { icon: Layers, label: "Specialty", value: "Microservices" },
+      { icon: Zap, label: "Experience", value: "High Speed" }
+    ],
+    accentColor: "green-500"
+  },
+  {
+    id: "react-native-app",
+    name: "Cross-Platform App",
+    category: "Mobile App",
     icon: Smartphone,
-    description: "Descending into the depths of mobile and hardware. We build intuitive apps and hardware-level solutions, specializing in Android systems and integrated tech.",
+    description: "A cross-platform mobile application using React Native. Write once, run seamlessly on both Android and iOS devices.",
     specs: [
-      { name: "React Native / Mobile", level: 95 },
-      { name: "Android System Exp", level: 92 },
-      { name: "Hardware Integration", level: 85 },
-      { name: "IT Infrastructure", level: 88 }
+      { name: "Cross Platform", level: 98 },
+      { name: "Native Modules", level: 85 },
+      { name: "UI Animations", level: 92 },
+      { name: "Performance", level: 90 }
     ],
     facts: [
-      { icon: Cpu, label: "Core Element", value: "Silicon" },
-      { icon: Layers, label: "Specialty", value: "Hardware Link" },
-      { icon: Smartphone, label: "Experience", value: "Device Mastery" }
+      { icon: Sparkles, label: "Core Element", value: "Mobile UX" },
+      { icon: Smartphone, label: "Specialty", value: "iOS & Android" },
+      { icon: Palette, label: "Focus", value: "Fluidity" }
     ],
-    accentColor: "cyan-500"
-  },
-  {
-    id: "frontend-design",
-    name: "Frontend Alchemy",
-    category: "Web & Interaction Design",
-    icon: Palette,
-    description: "Transforming pixels into mystical experiences. We specialize in high-end frontend development and design concepts that captivate and enchant every user.",
-    specs: [
-      { name: "Advanced UI/UX", level: 96 },
-      { name: "Animation Potions", level: 92 },
-      { name: "Responsive Design", level: 94 },
-      { name: "Figma Mastery", level: 90 }
-    ],
-    facts: [
-      { icon: Sparkles, label: "Core Element", value: "Vibrance" },
-      { icon: Layers, label: "Specialty", value: "Micro-Magic" },
-      { icon: Palette, label: "Focus", value: "Visual Bliss" }
-    ],
-    accentColor: "purple-500"
+    accentColor: "purple-400"
   }
 ];
 
@@ -328,9 +328,9 @@ export function Services() {
                       {isServiceSelected(selectedService.id) ? (
                         <>
                           <CheckCircle2 className="w-5 h-5" />
-                          {t('inPortfolio')}
+                          {t('inBasket')}
                         </>
-                      ) : t('addToPortfolio')}
+                      ) : t('addToBasket')}
                    </button>
                 </div>
               </div>
@@ -398,12 +398,12 @@ function ServiceCard({ service, delay, onClick, isSelected, onAdd }: {
              >
                 {t('more')}
              </button>
-             {!isSelected && (
+              {!isSelected && (
                 <button 
                   onClick={onAdd}
                   className="p-1 px-4 bg-amber-500 text-[#0B0F19] rounded-full font-black uppercase text-[10px] tracking-[0.2em] hover:bg-white transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)]"
                 >
-                  {t('addToPortfolio')}
+                  {t('addToBasket')}
                 </button>
              )}
           </div>

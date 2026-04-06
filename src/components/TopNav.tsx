@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { Bell, CircleHelp, LogIn, Menu, Settings, User, Sparkles, LogOut } from "lucide-react";
+import { Bell, CircleHelp, LogIn, Menu, Settings, User, Sparkles, LogOut, ShoppingCart } from "lucide-react";
 import logoImage from "../assets/d3fb022417f356c7ca48d8ab4a07b126226cc9b4.png";
 import { Button } from "./ui/button";
 import {
@@ -52,6 +52,17 @@ function NavLinks() {
         <Bell className="h-4 w-4" />
         {t("notifications")}
       </NavItem>
+      
+      <NavItem to="/cart">
+        <div className="relative">
+          <ShoppingCart className="h-4 w-4" />
+          {selectedServices.length > 0 && (
+            <span className="absolute -top-2 -right-3 flex h-4 w-4 items-center justify-center rounded-full bg-amber-500 text-[9px] font-black text-[#0B0F19] shadow-[0_0_10px_rgba(245,158,11,0.5)] animate-pulse">
+              {selectedServices.length}
+            </span>
+          )}
+        </div>
+      </NavItem>
 
       {!user ? (
         <NavItem to="/login">
@@ -70,7 +81,7 @@ function NavLinks() {
                   <User className="h-3 w-3 text-amber-500" />
                 </div>
                 <span className="max-w-[100px] truncate">
-                  {user.displayName || user.email?.split('@')[0]}
+                  {user.name || user.email?.split('@')[0]}
                 </span>
               </div>
             </Button>
@@ -111,11 +122,6 @@ function NavLinks() {
               className="justify-start rounded-full px-4 py-2 text-sm font-semibold text-gray-200/90 hover:bg-white/10 hover:text-white md:h-auto gap-2"
             >
               {t("more")}
-              {selectedServices.length > 0 && (
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-[10px] font-black text-[#0B0F19] shadow-[0_0_10px_rgba(245,158,11,0.5)] animate-pulse">
-                  {selectedServices.length}
-                </span>
-              )}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-48 bg-[#0B0F19] border-white/10 text-white">

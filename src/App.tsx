@@ -16,6 +16,7 @@ import { LoginPage } from "./pages/Login";
 import { SignupPage } from "./pages/Signup";
 import { NotificationsPage } from "./pages/Notifications";
 import { ProfilePage } from "./pages/Profile";
+import { CartPage } from "./pages/Cart";
 import { SettingsPage } from "./pages/Settings";
 import { HelpPage } from "./pages/Help";
 import { ServiceProvider } from "./components/ServiceContext";
@@ -61,6 +62,7 @@ function AppContent() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/cart" element={<CartPage />} />
           
           <Route path="/profile" element={
             <ProtectedRoute>
