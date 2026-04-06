@@ -6,7 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../co
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { useLanguage } from "../components/LanguageProvider";
-import { useAuth } from "../contexts/AuthContext";
+import { auth, db } from "../lib/firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { toast } from "sonner";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -39,8 +41,6 @@ export function SignupPage() {
 
   const canSubmit = !errors.name && !errors.email && !errors.password && !errors.confirm;
 
-  const { login } = useAuth();
-  
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched({ name: true, email: true, password: true, confirm: true });
@@ -49,19 +49,22 @@ export function SignupPage() {
     
     setSubmitting(true);
     try {
-      const response = await fetch("http://localhost:5000/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password })
+      // 1. Create Auth User
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // 2. Update Auth Profile (Display Name)
+      await updateProfile(user, { displayName: name });
+
+      // 3. Create Firestore Document
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        displayName: name,
+        email: email,
+        createdAt: serverTimestamp(),
+        role: "client",
+        status: "active"
       });
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || "Signup failed");
-      }
-      
-      // Auto login after signup
-      login(data.token, data.user);
 
       toast.success("Account created successfully!");
       navigate("/profile");

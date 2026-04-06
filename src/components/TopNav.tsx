@@ -81,7 +81,7 @@ function NavLinks() {
                   <User className="h-3 w-3 text-amber-500" />
                 </div>
                 <span className="max-w-[100px] truncate">
-                  {user.name || user.email?.split('@')[0]}
+                  {user.displayName || user.email?.split('@')[0]}
                 </span>
               </div>
             </Button>

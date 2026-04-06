@@ -7,10 +7,12 @@ import { useLanguage } from "../components/LanguageProvider";
 import { services } from "../components/Services";
 import { Button } from "../components/ui/button";
 import { toast } from "sonner";
+import { db } from "../lib/firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 export function CartPage() {
   const { t } = useLanguage();
-  const { user, token } = useAuth();
+  const { user } = useAuth();
   const { selectedServices, removeService } = useServiceManager();
   const navigate = useNavigate();
   
@@ -19,7 +21,7 @@ export function CartPage() {
 
   // Sync cart to backend automatically when it changes and user is logged in
   useEffect(() => {
-    if (user && token && selectedServices.length > 0) {
+    if (user && selectedServices.length > 0) {
       const items = selectedServices.map(s => {
         const detail = services.find(ds => ds.id === s.id);
         return {
@@ -28,16 +30,14 @@ export function CartPage() {
           price: 500 // mock price
         };
       });
-      fetch("http://localhost:5000/api/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({ items, total: items.length * 500 })
-      }).catch(err => console.error("Failed to sync cart:", err));
+      
+      setDoc(doc(db, "carts", user.uid), {
+        items,
+        total: items.length * 500,
+        updatedAt: new Date().toISOString()
+      }, { merge: true }).catch(err => console.error("Failed to sync cart:", err));
     }
-  }, [user, token, selectedServices]);
+  }, [user, selectedServices]);
 
   const handleCheckout = async () => {
     if (!user) {
@@ -50,13 +50,21 @@ export function CartPage() {
 
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/checkout", {
-        method: "POST",
-        headers: { "Authorization": `Bearer ${token}` }
+      // Create order document in Firebase
+      await setDoc(doc(db, "orders", `${user.uid}_${Date.now()}`), {
+        userId: user.uid,
+        items: selectedServices,
+        status: "pending",
+        createdAt: new Date().toISOString(),
+        total: selectedServices.length * 500
       });
-      const data = await response.json();
       
-      if (!response.ok) throw new Error(data.error || "Checkout failed");
+      // Empty user's saved cart document manually
+      await setDoc(doc(db, "carts", user.uid), {
+        items: [],
+        total: 0,
+        updatedAt: new Date().toISOString()
+      });
       
       // Clear local storage / context
       selectedServices.forEach(s => removeService(s.id));
