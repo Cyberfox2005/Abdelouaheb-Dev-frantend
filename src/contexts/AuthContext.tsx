@@ -22,21 +22,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setUser(user);
-      if (user) {
-        // Fetch additional user data from Firestore
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          setUserData(userDoc.data());
-        }
-      } else {
-        setUserData(null);
+    try {
+      if (!auth) {
+         setLoading(false);
+         return;
       }
-      setLoading(false);
-    });
+      const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        setUser(user);
+        if (user) {
+          try {
+            // Fetch additional user data from Firestore
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            if (userDoc.exists()) {
+              setUserData(userDoc.data());
+            }
+          } catch(e) {
+            console.error("Failed to load user config", e);
+          }
+        } else {
+          setUserData(null);
+        }
+        setLoading(false);
+      });
 
-    return unsubscribe;
+      return unsubscribe;
+    } catch (e) {
+      console.error("Firebase Auth Error: Missing API Config Data", e);
+      setLoading(false);
+    }
   }, []);
 
   const logout = () => signOut(auth);
