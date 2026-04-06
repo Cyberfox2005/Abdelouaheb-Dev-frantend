@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLanguage } from "./LanguageProvider";
+import { useServiceManager } from "./ServiceContext";
 import { 
   Code2, 
   Smartphone, 
@@ -13,7 +14,8 @@ import {
   Layers, 
   Cloud,
   X,
-  Star
+  Star,
+  CheckCircle2
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -28,7 +30,7 @@ type MagicFact = {
   value: string;
 };
 
-type Service = {
+export type Service = {
   id: string;
   name: string;
   category: string;
@@ -39,7 +41,7 @@ type Service = {
   accentColor: string;
 };
 
-const services: Service[] = [
+export const services: Service[] = [
   {
     id: "full-stack-dev",
     name: "Full-Stack Sorcery",
@@ -160,7 +162,13 @@ function StarConnection({ className }: { className?: string }) {
 
 export function Services() {
   const { t } = useLanguage();
+  const { addService, isServiceSelected } = useServiceManager();
   const [selectedService, setSelectedService] = useState<Service | null>(null);
+
+  const handleAddService = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    addService(id);
+  };
 
   return (
     <section id="services" className="py-20 md:py-32 bg-[#0B0F19] relative overflow-hidden min-h-screen">
@@ -203,14 +211,19 @@ export function Services() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {services.map((service, idx) => (
-            <ServiceCard 
-              key={service.id} 
-              service={service} 
-              delay={idx * 0.1} 
-              onClick={() => setSelectedService(service)}
-            />
-          ))}
+          {services.map((service, idx) => {
+            const isSelected = isServiceSelected(service.id);
+            return (
+              <ServiceCard 
+                key={service.id} 
+                service={service} 
+                delay={idx * 0.1} 
+                onClick={() => setSelectedService(service)}
+                isSelected={isSelected}
+                onAdd={(e) => handleAddService(e, service.id)}
+              />
+            );
+          })}
         </div>
       </div>
 
@@ -303,8 +316,21 @@ export function Services() {
                 </div>
 
                 <div className="mt-auto">
-                   <button className="px-10 py-4 bg-amber-500 hover:bg-white text-[#0B0F19] font-black uppercase tracking-[0.2em] rounded-full transition-all shadow-[0_0_30px_rgba(245,158,11,0.5)] active:scale-95">
-                      Request Enchantment
+                   <button 
+                    disabled={isServiceSelected(selectedService.id)}
+                    onClick={(e) => handleAddService(e, selectedService.id)}
+                    className={`px-10 py-4 font-black uppercase tracking-[0.2em] rounded-full transition-all shadow-[0_0_30px_rgba(245,158,11,0.5)] active:scale-95 flex items-center gap-2 ${
+                      isServiceSelected(selectedService.id) 
+                      ? "bg-green-500/20 text-green-400 border border-green-500/30 cursor-not-allowed shadow-none" 
+                      : "bg-amber-500 hover:bg-white text-[#0B0F19]"
+                    }`}
+                   >
+                      {isServiceSelected(selectedService.id) ? (
+                        <>
+                          <CheckCircle2 className="w-5 h-5" />
+                          {t('inPortfolio')}
+                        </>
+                      ) : t('addToPortfolio')}
                    </button>
                 </div>
               </div>
@@ -316,7 +342,15 @@ export function Services() {
   );
 }
 
-function ServiceCard({ service, delay, onClick }: { service: Service, delay: number, onClick: () => void }) {
+function ServiceCard({ service, delay, onClick, isSelected, onAdd }: { 
+  service: Service, 
+  delay: number, 
+  onClick: () => void,
+  isSelected: boolean,
+  onAdd: (e: React.MouseEvent) => void
+}) {
+  const { t } = useLanguage();
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 30 }}
@@ -326,11 +360,21 @@ function ServiceCard({ service, delay, onClick }: { service: Service, delay: num
       className="group relative cursor-pointer"
     >
       <motion.div 
-        className="relative bg-white/[0.03] backdrop-blur-2xl rounded-[2.5rem] p-10 border border-white/10 group-hover:border-amber-500/40 transition-all duration-500 h-full overflow-hidden"
+        className={`relative bg-white/[0.03] backdrop-blur-2xl rounded-[2.5rem] p-10 border transition-all duration-500 h-full overflow-hidden ${
+          isSelected ? "border-green-500/40" : "border-white/10 group-hover:border-amber-500/40"
+        }`}
         whileHover={{ scale: 1.02, y: -10 }}
       >
         <div className={`absolute top-0 right-0 w-32 h-32 bg-${service.accentColor}/10 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity`} />
         
+        {isSelected && (
+          <div className="absolute top-6 right-6">
+            <div className="p-2 bg-green-500/20 rounded-full text-green-400 border border-green-500/30">
+              <CheckCircle2 className="w-5 h-5" />
+            </div>
+          </div>
+        )}
+
         <div className="relative z-10">
           <div className={`w-16 h-16 rounded-2xl bg-${service.accentColor}/20 flex items-center justify-center mb-8 border border-${service.accentColor}/30 group-hover:scale-110 transition-transform`}>
             <service.icon className={`w-8 h-8 text-${service.accentColor}`} />
@@ -344,11 +388,24 @@ function ServiceCard({ service, delay, onClick }: { service: Service, delay: num
             {service.description.slice(0, 100)}...
           </p>
 
-          <div className="flex items-center gap-3 text-amber-400/60 font-black uppercase text-[10px] tracking-[0.2em]">
-            <span className="p-1 px-3 bg-white/5 rounded-full border border-white/10 group-hover:border-amber-500/40 group-hover:text-amber-400">
-               Learn More
-            </span>
-            <span className="animate-bounce-x">&rarr;</span>
+          <div className="flex items-center gap-3">
+             <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onClick();
+              }}
+              className="p-1 px-4 bg-white/5 rounded-full border border-white/10 text-amber-400/60 font-black uppercase text-[10px] tracking-[0.2em] hover:border-amber-500/40 hover:text-amber-400 transition-all"
+             >
+                {t('more')}
+             </button>
+             {!isSelected && (
+                <button 
+                  onClick={onAdd}
+                  className="p-1 px-4 bg-amber-500 text-[#0B0F19] rounded-full font-black uppercase text-[10px] tracking-[0.2em] hover:bg-white transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)]"
+                >
+                  {t('addToPortfolio')}
+                </button>
+             )}
           </div>
         </div>
       </motion.div>

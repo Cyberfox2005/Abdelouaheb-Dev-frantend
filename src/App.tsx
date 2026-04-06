@@ -13,10 +13,15 @@ import { LanguageProvider } from "./components/LanguageProvider";
 import { LanguageToggle } from "./components/LanguageToggle";
 import { TopNav } from "./components/TopNav";
 import { LoginPage } from "./pages/Login";
+import { SignupPage } from "./pages/Signup";
 import { NotificationsPage } from "./pages/Notifications";
 import { ProfilePage } from "./pages/Profile";
 import { SettingsPage } from "./pages/Settings";
 import { HelpPage } from "./pages/Help";
+import { ServiceProvider } from "./components/ServiceContext";
+import { AuthProvider } from "./contexts/AuthContext";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { Toaster } from "./components/ui/sonner";
 
 function AppContent() {
   return (
@@ -54,9 +59,20 @@ function AppContent() {
           } />
           
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/settings" element={<SettingsPage />} />
+          
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          } />
+          <Route path="/settings" element={
+            <ProtectedRoute>
+              <SettingsPage />
+            </ProtectedRoute>
+          } />
+          
           <Route path="/help" element={<HelpPage />} />
 
           <Route path="/services" element={
@@ -66,6 +82,7 @@ function AppContent() {
             </div>
           } />
         </Routes>
+        <Toaster position="top-center" expand={true} richColors />
       </div>
     </Router>
   );
@@ -75,7 +92,11 @@ export default function App() {
   return (
     <LanguageProvider>
       <ThemeProvider defaultTheme="dark">
-        <AppContent />
+        <AuthProvider>
+          <ServiceProvider>
+            <AppContent />
+          </ServiceProvider>
+        </AuthProvider>
       </ThemeProvider>
     </LanguageProvider>
   );

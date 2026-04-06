@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { Bell, CircleHelp, LogIn, Menu, Settings, User } from "lucide-react";
+import { Bell, CircleHelp, LogIn, Menu, Settings, User, Sparkles, LogOut } from "lucide-react";
 import logoImage from "../assets/d3fb022417f356c7ca48d8ab4a07b126226cc9b4.png";
 import { Button } from "./ui/button";
 import {
@@ -11,6 +11,8 @@ import {
 } from "./ui/dropdown-menu";
 import { useLanguage } from "./LanguageProvider";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { useServiceManager } from "./ServiceContext";
+import { useAuth } from "../contexts/AuthContext";
 
 function NavItem({
   to,
@@ -39,6 +41,8 @@ function NavItem({
 
 function NavLinks() {
   const { t } = useLanguage();
+  const { user, logout } = useAuth();
+  const { selectedServices } = useServiceManager();
 
   return (
     <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-1">
@@ -48,42 +52,82 @@ function NavLinks() {
         <Bell className="h-4 w-4" />
         {t("notifications")}
       </NavItem>
-      <NavItem to="/login">
-        <LogIn className="h-4 w-4" />
-        {t("login")}
-      </NavItem>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            className="justify-start rounded-full px-4 py-2 text-sm font-semibold text-gray-200/90 hover:bg-white/10 hover:text-white md:h-auto"
-          >
-            {t("more")}
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="min-w-48">
-          <DropdownMenuItem asChild>
-            <Link to="/profile" className="flex w-full items-center gap-2">
-              <User className="h-4 w-4" />
-              {t("profile")}
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link to="/settings" className="flex w-full items-center gap-2">
-              <Settings className="h-4 w-4" />
-              {t("settings")}
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
-            <Link to="/help" className="flex w-full items-center gap-2">
-              <CircleHelp className="h-4 w-4" />
-              {t("help")}
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      {!user ? (
+        <NavItem to="/login">
+          <LogIn className="h-4 w-4" />
+          {t("login")}
+        </NavItem>
+      ) : (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              className="justify-start rounded-full px-4 py-2 text-sm font-semibold text-gray-200/90 hover:bg-white/10 hover:text-white md:h-auto gap-2"
+            >
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center border border-amber-500/30">
+                  <User className="h-3 w-3 text-amber-500" />
+                </div>
+                <span className="max-w-[100px] truncate">
+                  {user.displayName || user.email?.split('@')[0]}
+                </span>
+              </div>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="min-w-48 bg-[#0B0F19] border-white/10 text-white">
+            <DropdownMenuItem asChild>
+              <Link to="/profile" className="flex w-full items-center justify-between gap-2 cursor-pointer hover:bg-white/5 focus:bg-white/5 transition-colors">
+                <div className="flex items-center gap-2">
+                  <User className="h-4 w-4" />
+                  {t("profile")}
+                </div>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link to="/settings" className="flex w-full items-center gap-2 cursor-pointer hover:bg-white/5 focus:bg-white/5 transition-colors">
+                <Settings className="h-4 w-4" />
+                {t("settings")}
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator className="bg-white/10" />
+            <DropdownMenuItem 
+              onClick={() => logout()}
+              className="flex w-full items-center gap-2 cursor-pointer text-red-400 hover:bg-red-500/10 focus:bg-red-500/10 transition-colors"
+            >
+              <LogOut className="h-4 w-4" />
+              {t("logout")}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
+
+      {/* More dropdown for unauthenticated or extra links */}
+      {!user && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              className="justify-start rounded-full px-4 py-2 text-sm font-semibold text-gray-200/90 hover:bg-white/10 hover:text-white md:h-auto gap-2"
+            >
+              {t("more")}
+              {selectedServices.length > 0 && (
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-[10px] font-black text-[#0B0F19] shadow-[0_0_10px_rgba(245,158,11,0.5)] animate-pulse">
+                  {selectedServices.length}
+                </span>
+              )}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="min-w-48 bg-[#0B0F19] border-white/10 text-white">
+            <DropdownMenuItem asChild>
+              <Link to="/help" className="flex w-full items-center gap-2 cursor-pointer hover:bg-white/5 focus:bg-white/5 transition-colors">
+                <CircleHelp className="h-4 w-4" />
+                {t("help")}
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
     </div>
   );
 }
@@ -112,7 +156,7 @@ export function TopNav() {
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-[#050812] text-white">
+            <SheetContent side="right" className="bg-[#050812] text-white border-white/10">
               <div className="mt-10">
                 <div className="mb-4 text-xs font-black uppercase tracking-widest text-gray-400">
                   {t("menu")}

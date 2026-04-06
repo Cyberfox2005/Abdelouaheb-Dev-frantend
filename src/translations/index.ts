@@ -11,6 +11,7 @@ export const translations = {
     profile: "Profile",
     settings: "Settings",
     help: "Help",
+    services: "Services",
     name: "Abdelouaheb Dev",
     title: "Web and Mobile Developer",
     location: "Algiers, Algeria",
@@ -29,8 +30,16 @@ export const translations = {
     emailInvalid: "Please enter a valid email address.",
     passwordRequired: "Password is required.",
     passwordMin: "Password must be at least 6 characters.",
-    loginSuccess: "Signed in (demo).",
-    loginHint: "This is a demo page. Next:",
+    loginSuccess: "Signed in successfully!",
+    loginHint: "Manage your services and profile.",
+    signUp: "Sign up",
+    signupTitle: "Create Account",
+    nameRequired: "Full name is required.",
+    fullName: "Full Name",
+    confirmPassword: "Confirm Password",
+    createAccount: "Create Account",
+    backToLogin: "Back to Login",
+    logout: "Logout",
 
     // Notifications
     notificationsTitle: "Notifications",
@@ -126,7 +135,20 @@ export const translations = {
     followMe: "Follow Me",
     rights: "All rights reserved.",
     builtWith: "Built with",
-    and: "and"
+    and: "and",
+
+    // Service Manager
+    addToPortfolio: "Request Enchantment",
+    inPortfolio: "In Portfolio",
+    myServices: "My Services",
+    serviceStatus: "Status",
+    pending: "Pending Magic",
+    inProgress: "Casting...",
+    completed: "Manifested",
+    remove: "Remove",
+    noServices: "No magical services selected yet.",
+    goShopping: "Explore Services",
+    addedAt: "Requested on"
   },
   // francise
   fr: {
@@ -140,6 +162,7 @@ export const translations = {
     profile: "Profil",
     settings: "Paramètres",
     help: "Aide",
+    services: "Services",
     name: "Abdelouaheb Dev",
     title: "Développeur Web et Mobile",
     location: "Alger, Algérie",
@@ -158,8 +181,16 @@ export const translations = {
     emailInvalid: "Veuillez saisir un email valide.",
     passwordRequired: "Le mot de passe est requis.",
     passwordMin: "Le mot de passe doit contenir au moins 6 caractères.",
-    loginSuccess: "Connecté (démo).",
-    loginHint: "Page démo. Ensuite :",
+    loginSuccess: "Connexion réussie !",
+    loginHint: "Gérez vos services et votre profil.",
+    signUp: "S'inscrire",
+    signupTitle: "Créer un compte",
+    nameRequired: "Le nom complet est requis.",
+    fullName: "Nom complet",
+    confirmPassword: "Confirmer le mot de passe",
+    createAccount: "Créer le compte",
+    backToLogin: "Retour à la connexion",
+    logout: "Déconnexion",
 
     // Notifications
     notificationsTitle: "Notifications",
@@ -255,7 +286,20 @@ export const translations = {
     followMe: "Suivez-moi",
     rights: "Tous droits réservés.",
     builtWith: "Créé avec",
-    and: "et"
+    and: "et",
+
+    // Service Manager
+    addToPortfolio: "Demander l'Enchantement",
+    inPortfolio: "Dans le Portfolio",
+    myServices: "Mes Services",
+    serviceStatus: "Statut",
+    pending: "Magie en Attente",
+    inProgress: "Incantation...",
+    completed: "Manifesté",
+    remove: "Retirer",
+    noServices: "Aucun service magique sélectionné pour le moment.",
+    goShopping: "Explorer les Services",
+    addedAt: "Demandé le"
   }
 };
 
