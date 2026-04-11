@@ -68,11 +68,21 @@ export function ProjectDetails({ project, onClose }: ProjectDetailsProps) {
           </div>
 
           <div className="flex gap-4 mb-12">
-            <Button size="lg" className="bg-gradient-to-r from-brand-cyan to-brand-green hover:opacity-90 text-white border-0 shadow-lg shadow-brand-cyan/20">
+            <Button 
+              size="lg" 
+              className="bg-gradient-to-r from-brand-cyan to-brand-green hover:opacity-90 text-white border-0 shadow-lg shadow-brand-cyan/20"
+              onClick={() => project.liveUrl !== "#" && window.open(project.liveUrl, '_blank')}
+              disabled={project.liveUrl === "#"}
+            >
               <ExternalLink className="mr-2 h-5 w-5" />
               {t('liveDemo')}
             </Button>
-            <Button size="lg" variant="outline" className="border-brand-purple/50 text-brand-purple hover:bg-brand-purple/10">
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="border-brand-purple/50 text-brand-purple hover:bg-brand-purple/10"
+              onClick={() => window.open(project.githubUrl, '_blank')}
+            >
               <Github className="mr-2 h-5 w-5" />
               {t('viewCode')}
             </Button>
