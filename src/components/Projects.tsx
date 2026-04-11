@@ -31,6 +31,7 @@ const projects: ProjectType[] = [
       { name: "Python", percent: 60, color: "#3572A5" },
       { name: "TypeScript", percent: 30, color: "#3178c6" },
       { name: "CSS", percent: 10, color: "#563d7c" }
+      
     ]
   },
   {
@@ -47,16 +48,17 @@ const projects: ProjectType[] = [
     ]
   },
   {
-    title: "Food Delivery Mobile App",
-    description: "Cross-platform food delivery application with real-time order tracking, payment gateway, and restaurant management.",
+    title: "Food Mobile App",
+    description: "Cross-platform food  application with real-time order tracking, payment gateway, and restaurant management.",
     image: "https://images.unsplash.com/photo-1644946763226-22c60fcb6635?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXN0YXVyYW50JTIwZm9vZCUyMGRlbGl2ZXJ5fGVufDF8fHx8MTc2MTM4NTE5N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    tags: ["React Native", "Node.js", "MongoDB", "Dart"],
+    tags: ["Kotlin", "HTML", "CSS", "JavaScript"],
     liveUrl: "#",
     githubUrl: "#",
     languages: [
-      { name: "Dart", percent: 50, color: "#00B4AB" },
-      { name: "JavaScript", percent: 35, color: "#f1e05a" },
-      { name: "Swift", percent: 15, color: "#F05138" }
+      { name: "kotlin", percent: 15.0, color: "#9300B4" },
+      { name: "JavaScript", percent: 78.5, color: "#f1e05a" },
+      { name: "HTML", percent: 2.7, color: "#F05138" },
+      { name: "CSS", percent: 3.8, color: "#563d7c" }
     ]
   },
   {
@@ -93,9 +95,9 @@ const projects: ProjectType[] = [
     liveUrl: "#",
     githubUrl: "https://github.com/Cyberfox2005/Oniline-learning-platform-.git",
     languages: [
-      { name: "JavaScript", percent: 60, color: "#f1e05a" },
-      { name: "CSS", percent: 25, color: "#563d7c" },
-      { name: "HTML", percent: 15, color: "#e34c26" }
+      { name: "JavaScript", percent: 94.5, color: "#f1e05a" },
+      { name: "CSS", percent: 5.1, color: "#563d7c" },
+      { name: "HTML", percent: 0.4, color: "#e34c26" }
     ]
   },
   {
