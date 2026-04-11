@@ -61,19 +61,7 @@ const projects: ProjectType[] = [
       { name: "CSS", percent: 3.8, color: "#563d7c" }
     ]
   },
-  {
-    title: "Social Media Platform",
-    description: "Feature-rich social networking platform with posts, messaging, notifications, and user profiles.",
-    image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2NpYWwlMjBtZWRpYSUyMGFwcHxlbnwxfHx8fDE3NjEzNTU2MzN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    tags: ["React", "Laravel", "MySQL", "Bootstrap"],
-    liveUrl: "#",
-    githubUrl: "#",
-    languages: [
-      { name: "PHP", percent: 50, color: "#4F5D95" },
-      { name: "TypeScript", percent: 35, color: "#3178c6" },
-      { name: "Blade", percent: 15, color: "#f7523f" }
-    ]
-  },
+  
   {
     title: "Real Estate Listing App",
     description: "Property listing and management platform with advanced search, virtual tours, and agent dashboard.",
