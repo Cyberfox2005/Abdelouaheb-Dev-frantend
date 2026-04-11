@@ -87,15 +87,15 @@ const projects: ProjectType[] = [
   },
   {
     title: "Online Learning Platform",
-    description: "E-learning platform with video courses, quizzes, progress tracking, and certification system.",
+    description: "A comprehensive full-stack e-learning platform built with React and Vite for the frontend and Node.js/Express for the backend. Features user authentication, course management, assignments, exams, community posts, and real-time activity tracking. Includes interactive dashboards with Recharts, Framer Motion animations, and Radix UI components for a modern learning experience.",
     image: "https://images.unsplash.com/photo-1669607960578-f7d7fd363e5e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlZHVjYXRpb24lMjBsZWFybmluZyUyMG9ubGluZXxlbnwxfHx8fDE3NjEzMzMxNjh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    tags: ["HTML", "React", "PHP", "LARAVEL","JavaScript","CSS",],
+    tags: ["React", "Vite", "Node.js", "Express", "JavaScript", "Tailwind CSS", "Recharts", "Radix UI"],
     liveUrl: "#",
     githubUrl: "https://github.com/Cyberfox2005/Oniline-learning-platform-.git",
     languages: [
-      { name: "Python", percent: 55, color: "#3572A5" },
-      { name: "TypeScript", percent: 35, color: "#3178c6" },
-      { name: "HTML", percent: 10, color: "#e34c26" }
+      { name: "JavaScript", percent: 60, color: "#f1e05a" },
+      { name: "CSS", percent: 25, color: "#563d7c" },
+      { name: "HTML", percent: 15, color: "#e34c26" }
     ]
   },
   {
