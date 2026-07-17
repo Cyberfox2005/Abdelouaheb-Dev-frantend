@@ -19,7 +19,8 @@ import { ProfilePage } from "./pages/Profile";
 import { CartPage } from "./pages/Cart";
 import { SettingsPage } from "./pages/Settings";
 import { HelpPage } from "./pages/Help";
-import { ProjectsPage } from "./pages/ProjectsPage";
+
+
 import { ServiceProvider } from "./components/ServiceContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
@@ -52,8 +53,7 @@ function AppContent() {
               <About />
               <Skills />
               <Experience />
-
-
+              <Projects />
               <Contact />
               <Footer />
             </>
@@ -63,7 +63,15 @@ function AppContent() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/cart" element={<CartPage />} />
-          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/projects" element={
+            <div className="min-h-screen" style={{ background: '#060b18' }}>
+              <TopNav />
+              <div className="pt-16">
+                <Projects />
+              </div>
+              <Footer />
+            </div>
+          } />
           
           <Route path="/profile" element={
             <ProtectedRoute>

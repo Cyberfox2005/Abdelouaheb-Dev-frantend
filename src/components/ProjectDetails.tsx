@@ -1,15 +1,27 @@
-import { X, ExternalLink, Github } from "lucide-react";
-import { Button } from "./ui/button";
+import { ArrowLeft, ExternalLink, Github, Star, Download, Shield, Code2 } from "lucide-react";
 import { Badge } from "./ui/badge";
-import { useLanguage } from "./LanguageProvider";
+
+export interface ScreenshotType {
+  url: string;
+  alt: string;
+}
 
 export interface ProjectType {
   title: string;
+  subtitle: string;
   description: string;
   image: string;
+  icon: string;
   tags: string[];
   liveUrl: string;
   githubUrl: string;
+  developer: string;
+  rating: number;
+  reviews: number;
+  category: string;
+  videoUrl?: string;
+  screenshots: ScreenshotType[];
+  features: string[];
   languages?: { name: string; percent: number; color: string }[];
 }
 
@@ -19,125 +31,192 @@ interface ProjectDetailsProps {
 }
 
 export function ProjectDetails({ project, onClose }: ProjectDetailsProps) {
-  const { t } = useLanguage();
+  const fullStars = Math.floor(project.rating);
+  const hasHalf = project.rating % 1 >= 0.5;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 md:p-8 animate-in fade-in duration-300">
-      <div 
-        className="relative w-full max-w-5xl max-h-[90vh] bg-white dark:bg-brand-dark rounded-2xl shadow-2xl overflow-y-auto animate-in zoom-in-95 duration-300 border border-gray-200 dark:border-brand-cyan/20"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close Button */}
-        <Button 
-          variant="outline" 
-          size="icon" 
+    <div
+      className="fixed inset-0 z-[200] overflow-y-auto"
+      style={{ background: "var(--store-bg)" }}
+    >
+      {/* Sticky top bar */}
+      <div className="sticky top-0 z-10 flex items-center gap-4 px-6 py-4 border-b detail-topbar">
+        <button
+          id="back-to-store-btn"
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 rounded-full bg-white/50 dark:bg-brand-dark/50 backdrop-blur-md hover:bg-white dark:hover:bg-brand-dark border-brand-cyan/20"
+          className="store-back-btn flex items-center gap-2"
         >
-          <X className="h-5 w-5" />
-        </Button>
+          <ArrowLeft size={18} />
+          <span>All Apps</span>
+        </button>
+        <span className="text-sm opacity-40 truncate">{project.title}</span>
+      </div>
 
-        {/* Hero Image */}
-        <div className="w-full h-64 md:h-96 relative">
-          <img 
-            src={project.image} 
-            alt={project.title} 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-brand-dark to-transparent" />
+      <div className="max-w-5xl mx-auto px-6 py-10">
+        {/* ── App Hero Row ───────────────────────────────────────────────────── */}
+        <div className="flex flex-col sm:flex-row items-start gap-7 mb-10">
+          {/* Squircle icon */}
+          <div className="squircle-icon detail-icon flex-shrink-0">
+            <img src={project.icon} alt={project.title} className="w-full h-full object-cover" />
+          </div>
+
+          <div className="flex-1 min-w-0">
+            <h1 className="detail-title">{project.title}</h1>
+            <p className="detail-developer">{project.developer}</p>
+            <p className="detail-subtitle mb-4">{project.subtitle}</p>
+
+            {/* Star rating */}
+            <div className="flex items-center gap-2 mb-5">
+              <div className="flex gap-0.5">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <span key={s} className={s <= fullStars ? "star-filled" : (s === fullStars + 1 && hasHalf ? "star-half" : "star-empty")}>
+                    ★
+                  </span>
+                ))}
+              </div>
+              <span className="text-sm opacity-60">{project.rating} ({project.reviews.toLocaleString()} ratings)</span>
+            </div>
+
+            {/* Action buttons */}
+            <div className="flex flex-wrap gap-3">
+              {project.liveUrl && project.liveUrl !== "#" ? (
+                <a
+                  id={`open-app-${project.title.replace(/\s+/g, '-').toLowerCase()}`}
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="store-open-btn"
+                >
+                  <ExternalLink size={15} />
+                  Open App
+                </a>
+              ) : (
+                <span className="store-open-btn-disabled">
+                  <ExternalLink size={15} />
+                  Open App
+                </span>
+              )}
+              {project.githubUrl && project.githubUrl !== "#" && (
+                <a
+                  id={`github-${project.title.replace(/\s+/g, '-').toLowerCase()}`}
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="store-github-btn"
+                >
+                  <Github size={15} />
+                  Source Code
+                </a>
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="p-8 md:p-12 -mt-20 relative z-10">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-brand-cyan to-brand-purple bg-clip-text text-transparent">
-            {project.title}
-          </h2>
-          
-          <div className="flex flex-wrap gap-2 mb-8">
-            {project.tags.map((tag, index) => (
-              <Badge key={index} className="bg-brand-cyan/10 text-brand-cyan border-brand-cyan/20 px-3 py-1 text-sm">
-                {tag}
-              </Badge>
+        {/* ── Meta Chips ─────────────────────────────────────────────────────── */}
+        <div className="flex flex-wrap gap-3 mb-10">
+          <div className="detail-meta-chip">
+            <Shield size={13} className="detail-meta-icon" />
+            <span>{project.category}</span>
+          </div>
+          <div className="detail-meta-chip">
+            <Download size={13} className="detail-meta-icon" />
+            <span>{project.reviews.toLocaleString()}+ Downloads</span>
+          </div>
+          <div className="detail-meta-chip">
+            <Code2 size={13} className="detail-meta-icon" />
+            <span>{project.tags.slice(0, 2).join(" · ")}</span>
+          </div>
+        </div>
+
+        {/* ── Media Section ──────────────────────────────────────────────────── */}
+        <div className="mb-12">
+          <h2 className="detail-section-title">Preview</h2>
+
+          {/* Video / hero image */}
+          <div className="detail-video-container mb-5">
+            {project.videoUrl ? (
+              <iframe
+                src={project.videoUrl}
+                title={`${project.title} demo`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full rounded-2xl"
+              />
+            ) : (
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full object-cover rounded-2xl"
+              />
+            )}
+          </div>
+
+          {/* Screenshot strip */}
+          <div className="screenshot-strip">
+            {project.screenshots.map((s, i) => (
+              <div key={i} className="screenshot-thumb">
+                <img src={s.url} alt={s.alt} className="w-full h-full object-cover" />
+              </div>
             ))}
           </div>
-
-          <div className="prose dark:prose-invert max-w-none mb-12">
-            <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-              {project.description}
-            </p>
-          </div>
-
-          <div className="flex gap-4 mb-12">
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-brand-cyan to-brand-green hover:opacity-90 text-white border-0 shadow-lg shadow-brand-cyan/20 cursor-pointer"
-              onClick={() => {
-                if (project.liveUrl && project.liveUrl !== "#") {
-                  window.open(project.liveUrl, '_blank');
-                }
-              }}
-              disabled={!project.liveUrl || project.liveUrl === "#"}
-            >
-              <ExternalLink className="mr-2 h-5 w-5" />
-              {t('liveDemo')}
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-brand-purple/50 text-brand-purple hover:bg-brand-purple/10 cursor-pointer"
-              onClick={() => {
-                if (project.githubUrl) {
-                  window.open(project.githubUrl, '_blank');
-                }
-              }}
-            >
-              <Github className="mr-2 h-5 w-5" />
-              {t('viewCode')}
-            </Button>
-          </div>
-
-          {/* GitHub Style Language Usage Graph */}
-          {project.languages && project.languages.length > 0 && (
-            <div className="mt-8 border-t border-gray-200 dark:border-brand-cyan/20 pt-8">
-              <h3 className="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
-                Languages
-              </h3>
-              
-              {/* Progress Bar */}
-              <div className="w-full h-3 rounded-full overflow-hidden flex mb-4 bg-gray-100 dark:bg-brand-darker">
-                {project.languages.map((lang, index) => (
-                  <div 
-                    key={index}
-                    style={{ 
-                      width: `${lang.percent}%`,
-                      backgroundColor: lang.color 
-                    }}
-                    className="h-full transition-all duration-1000 ease-out hover:brightness-110"
-                    title={`${lang.name}: ${lang.percent}%`}
-                  />
-                ))}
-              </div>
-
-              {/* Legend */}
-              <div className="flex flex-wrap gap-x-6 gap-y-3">
-                {project.languages.map((lang, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <span 
-                      className="w-3 h-3 rounded-full shadow-sm"
-                      style={{ backgroundColor: lang.color }}
-                    />
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      {lang.name}
-                    </span>
-                    <span className="text-sm text-gray-500 dark:text-gray-500">
-                      {lang.percent}%
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
+
+        {/* ── Description ────────────────────────────────────────────────────── */}
+        <div className="detail-card mb-8">
+          <h2 className="detail-section-title">About this app</h2>
+          <p className="detail-description">{project.description}</p>
+        </div>
+
+        {/* ── Features ───────────────────────────────────────────────────────── */}
+        {project.features && project.features.length > 0 && (
+          <div className="detail-card mb-8">
+            <h2 className="detail-section-title">Key Features</h2>
+            <ul className="feature-list">
+              {project.features.map((f, i) => (
+                <li key={i} className="feature-item">
+                  <span className="feature-bullet">✦</span>
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* ── Tech Tags ──────────────────────────────────────────────────────── */}
+        <div className="detail-card mb-8">
+          <h2 className="detail-section-title">Tech Stack</h2>
+          <div className="flex flex-wrap gap-2">
+            {project.tags.map((tag, i) => (
+              <Badge key={i} className="tech-badge">{tag}</Badge>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Language Bar ───────────────────────────────────────────────────── */}
+        {project.languages && project.languages.length > 0 && (
+          <div className="detail-card mb-8">
+            <h2 className="detail-section-title">Language Usage</h2>
+            <div className="lang-bar">
+              {project.languages.map((l, i) => (
+                <div
+                  key={i}
+                  style={{ width: `${l.percent}%`, backgroundColor: l.color }}
+                  className="lang-bar-segment"
+                  title={`${l.name}: ${l.percent}%`}
+                />
+              ))}
+            </div>
+            <div className="lang-legend">
+              {project.languages.map((l, i) => (
+                <div key={i} className="lang-item">
+                  <span className="lang-dot" style={{ backgroundColor: l.color }} />
+                  <span className="lang-name">{l.name}</span>
+                  <span className="lang-pct">{l.percent}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
