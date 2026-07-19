@@ -32,7 +32,7 @@ const Cart = require('./models/Cart');
 const authMiddleware = (req, res, next) => {
   const token = req.header('Authorization');
   if (!token) return res.status(401).json({ error: 'No token, authorization denied' });
-  
+
   try {
     const decoded = jwt.verify(token.replace('Bearer ', ''), JWT_SECRET);
     req.user = decoded;
@@ -50,13 +50,13 @@ app.post('/api/auth/signup', async (req, res) => {
     const { name, email, password } = req.body;
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ error: 'User already exists' });
-    
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    
+
     user = new User({ name, email, password: hashedPassword });
     await user.save();
-    
+
     const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1d' });
     res.json({ token, user: { id: user.id, name, email } });
   } catch (err) {
@@ -70,10 +70,10 @@ app.post('/api/auth/login', async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ error: 'User does not exist' });
-    
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
-    
+
     const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1d' });
     res.json({ token, user: { id: user.id, name: user.name, email } });
   } catch (err) {
@@ -96,7 +96,7 @@ app.post('/api/cart', authMiddleware, async (req, res) => {
   try {
     const { items, total } = req.body;
     let cart = await Cart.findOne({ user: req.user.id });
-    
+
     if (cart) {
       cart.items = items;
       cart.total = total;
@@ -104,13 +104,13 @@ app.post('/api/cart', authMiddleware, async (req, res) => {
       cart = await cart.save();
       return res.json(cart);
     }
-    
+
     const newCart = new Cart({
       user: req.user.id,
       items,
       total
     });
-    
+
     await newCart.save();
     res.json(newCart);
   } catch (err) {
@@ -150,20 +150,4 @@ app.listen(PORT, () => {
 });
 
 
-const app = express();
-app.use(express.json()); // Essential: Allows your app to read JSON
 
-connectDB();
-
-// API Route to save an order
-app.post('/api/orders', async (req, res) => {
-    try {
-        const newOrder = new Order(req.body); // req.body is your JSON data
-        const savedOrder = await newOrder.save(); // This sends it to MongoDB
-        res.status(201).json(savedOrder);
-    } catch (err) {
-        res.status(500).send("Error saving order");
-    }
-});
-
-app.listen(3000, () => console.log('Server running on port 3000'));
