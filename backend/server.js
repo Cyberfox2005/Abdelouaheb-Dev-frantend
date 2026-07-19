@@ -4,6 +4,9 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const express = require('express');
+const connectDB = require('./db');
+const Order = require('./Order');
 
 dotenv.config();
 
@@ -145,3 +148,22 @@ app.post('/api/checkout', authMiddleware, async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+
+const app = express();
+app.use(express.json()); // Essential: Allows your app to read JSON
+
+connectDB();
+
+// API Route to save an order
+app.post('/api/orders', async (req, res) => {
+    try {
+        const newOrder = new Order(req.body); // req.body is your JSON data
+        const savedOrder = await newOrder.save(); // This sends it to MongoDB
+        res.status(201).json(savedOrder);
+    } catch (err) {
+        res.status(500).send("Error saving order");
+    }
+});
+
+app.listen(3000, () => console.log('Server running on port 3000'));
