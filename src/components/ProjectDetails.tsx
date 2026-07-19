@@ -36,11 +36,11 @@ export function ProjectDetails({ project, onClose }: ProjectDetailsProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[200] overflow-y-auto"
+      className="min-h-screen"
       style={{ background: "var(--store-bg)" }}
     >
       {/* Sticky top bar */}
-      <div className="sticky top-0 z-10 flex items-center gap-4 px-6 py-4 border-b detail-topbar">
+      <div className="sticky top-16 z-10 flex items-center gap-4 px-6 py-4 border-b detail-topbar">
         <button
           id="back-to-store-btn"
           onClick={onClose}

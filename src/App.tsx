@@ -19,6 +19,8 @@ import { ProfilePage } from "./pages/Profile";
 import { CartPage } from "./pages/Cart";
 import { SettingsPage } from "./pages/Settings";
 import { HelpPage } from "./pages/Help";
+import { ProjectPage } from "./pages/ProjectPage";
+import { ServicePage } from "./pages/ServicePage";
 
 
 import { ServiceProvider } from "./components/ServiceContext";
@@ -73,6 +75,8 @@ function AppContent() {
             </div>
           } />
           
+          <Route path="/project/:title" element={<ProjectPage />} />
+          
           <Route path="/profile" element={
             <ProtectedRoute>
               <ProfilePage />
@@ -87,11 +91,13 @@ function AppContent() {
           <Route path="/help" element={<HelpPage />} />
 
           <Route path="/services" element={
-            <div className="bg-[#0B0F19] min-h-screen pt-20">
+            <div className="bg-[#0B0F19] min-h-screen pt-16">
               <Services />
               <Footer />
             </div>
           } />
+          
+          <Route path="/service/:id" element={<ServicePage />} />
         </Routes>
         <Toaster position="top-center" expand={true} richColors />
       </div>

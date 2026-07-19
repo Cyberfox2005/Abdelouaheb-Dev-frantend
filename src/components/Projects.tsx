@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Search, Star, ChevronRight, ExternalLink } from "lucide-react";
 import { ProjectDetails, ProjectType } from "./ProjectDetails";
 import { useLanguage } from "./LanguageProvider";
+import { useNavigate } from "react-router-dom";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    DATA — extend with your real projects
 ───────────────────────────────────────────────────────────────────────────── */
 
-const PROJECTS: ProjectType[] = [
+export const PROJECTS: ProjectType[] = [
   {
     title: "Supermarket Management System",
     subtitle: "POS, inventory & analytics for retail",
@@ -15,9 +16,9 @@ const PROJECTS: ProjectType[] = [
       "A comprehensive Point-of-Sale and inventory management system built for supermarkets. Handles sales tracking, real-time stock alerts, supplier management, and multi-cashier support. The analytics dashboard provides daily revenue breakdowns, best-selling products, and customer purchase trends — all surfaced in a clean, role-based UI.",
     image: "https://images.unsplash.com/photo-1628102491629-778571d893a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdXBlcm1hcmtldCUyMHNob3BwaW5nfGVufDF8fHx8MTc2MTMzNzU1Mnww&ixlib=rb-4.1.0&q=80&w=1080",
     icon: "https://images.unsplash.com/photo-1628102491629-778571d893a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdXBlcm1hcmtldCUyMHNob3BwaW5nfGVufDF8fHx8MTc2MTMzNzU1Mnww&ixlib=rb-4.1.0&q=80&w=200",
-    tags: ["PHP", "Laravel", "MySQL", "Bootstrap"],
+    tags: ["C#", "Django", "Postgresql"],
     liveUrl: "#",
-    githubUrl: "#",
+    githubUrl: "",
     developer: "Abdelouaheb Dev",
     rating: 4.5,
     reviews: 2340,
@@ -36,9 +37,9 @@ const PROJECTS: ProjectType[] = [
       "Role-based access control (admin / cashier / manager)",
     ],
     languages: [
-      { name: "PHP", percent: 55, color: "#4F5D95" },
-      { name: "HTML/CSS", percent: 25, color: "#e34c26" },
-      { name: "JavaScript", percent: 20, color: "#f1e05a" },
+      { name: "C#", percent: 55, color: "#8e0c72ff" },
+      { name: "Django", percent: 25, color: "#26e35fff" },
+      { name: "Postgresql", percent: 20, color: "#5a85f1ff" },
     ],
   },
   {
@@ -306,7 +307,7 @@ const CATEGORIES = ["All", "Business & Tools", "Healthcare", "Commerce", "Food &
 
 export function Projects() {
   const { t } = useLanguage();
-  const [activeProject, setActiveProject] = useState<ProjectType | null>(null);
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
@@ -320,15 +321,7 @@ export function Projects() {
     return matchCat && matchSearch;
   });
 
-  /* — Detail view — */
-  if (activeProject) {
-    return (
-      <ProjectDetails
-        project={activeProject}
-        onClose={() => setActiveProject(null)}
-      />
-    );
-  }
+
 
   /* — Store grid — */
   return (
@@ -389,7 +382,7 @@ export function Projects() {
               <AppCard
                 key={i}
                 project={p}
-                onSelect={() => setActiveProject(p)}
+                onSelect={() => navigate(`/project/${encodeURIComponent(p.title)}`)}
               />
             ))}
           </div>

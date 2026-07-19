@@ -7,11 +7,12 @@ export interface SelectedService {
   id: string;
   status: ServiceStatus;
   addedAt: string;
+  selectedSkills?: string[];
 }
 
 interface ServiceContextType {
   selectedServices: SelectedService[];
-  addService: (id: string) => void;
+  addService: (id: string, selectedSkills?: string[]) => void;
   removeService: (id: string) => void;
   updateServiceStatus: (id: string, status: ServiceStatus) => void;
   isServiceSelected: (id: string) => boolean;
@@ -41,7 +42,7 @@ export function ServiceProvider({ children }: { children: ReactNode }) {
     }
   }, [selectedServices, mounted]);
 
-  const addService = (id: string) => {
+  const addService = (id: string, selectedSkills?: string[]) => {
     if (selectedServices.find(s => s.id === id)) {
       toast.error('Service already in your portfolio');
       return;
@@ -50,6 +51,7 @@ export function ServiceProvider({ children }: { children: ReactNode }) {
       id,
       status: 'pending',
       addedAt: new Date().toISOString(),
+      selectedSkills,
     };
     setSelectedServices(prev => [...prev, newService]);
     toast.success('Service added to your portfolio!');
