@@ -56,14 +56,7 @@ export function ServicePage() {
     );
   };
 
-  const selectAllSkills = () => {
-    if (isServiceSelected(service.id)) return;
-    if (selectedSkills.length === service.availableSkills.length) {
-      setSelectedSkills([]);
-    } else {
-      setSelectedSkills(service.availableSkills.map(s => s.id));
-    }
-  };
+
 
   const handleAddService = () => {
     if (!isServiceSelected(service.id)) {
@@ -155,15 +148,7 @@ export function ServicePage() {
                   : "Select the specific skills or technologies you want prioritized for your project."}
               </p>
 
-              <div className="mb-4 flex justify-end">
-                <button 
-                  onClick={selectAllSkills}
-                  disabled={isSelected}
-                  className="text-xs text-amber-500 hover:text-white uppercase tracking-wider font-bold transition-colors disabled:opacity-50"
-                >
-                  {selectedSkills.length === service.availableSkills.length ? "Deselect All" : "Select All"}
-                </button>
-              </div>
+
 
               <div className="flex flex-wrap gap-3 mb-12">
                 {service.availableSkills.map((skill) => {

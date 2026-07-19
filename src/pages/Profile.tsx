@@ -3,7 +3,7 @@ import { ArrowLeft, User, LayoutGrid, Clock, CheckCircle2, ShieldEllipsis, Trash
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
 import { useLanguage } from "../components/LanguageProvider";
 import { useServiceManager, ServiceStatus } from "../components/ServiceContext";
-import { services, Service } from "../components/Services";
+import { allServices as services, Service } from "../data/servicesData";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
