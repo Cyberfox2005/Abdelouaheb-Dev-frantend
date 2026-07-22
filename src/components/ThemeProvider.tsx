@@ -1,70 +1,70 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "light" | "dark";
+export type ThemePreset = "cyber" | "emerald" | "sunset";
+export type ThemeMode = "dark" | "light";
 
-type ThemeProviderProps = {
-  children: React.ReactNode;
-  defaultTheme?: Theme;
-};
+interface ThemeContextType {
+  preset: ThemePreset;
+  mode: ThemeMode;
+  setPreset: (preset: ThemePreset) => void;
+  setMode: (mode: ThemeMode) => void;
+  toggleMode: () => void;
+}
 
-type ThemeProviderState = {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-  toggleTheme: () => void;
-};
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-const ThemeProviderContext = createContext<ThemeProviderState | undefined>(
-  undefined
-);
-
-export function ThemeProvider({
-  children,
-  defaultTheme = "dark",
-}: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(defaultTheme);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem("theme") as Theme;
-      if (savedTheme) {
-        setTheme(savedTheme);
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [preset, setPreset] = useState<ThemePreset>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("portfolio-theme-preset") as ThemePreset;
+      if (saved && ["cyber", "emerald", "sunset"].includes(saved)) {
+        return saved;
       }
     }
-  }, []);
+    return "cyber";
+  });
+
+  const [mode, setMode] = useState<ThemeMode>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("portfolio-theme-mode") as ThemeMode;
+      if (saved && ["dark", "light"].includes(saved)) {
+        return saved;
+      }
+    }
+    return "dark";
+  });
 
   useEffect(() => {
-    if (mounted && typeof window !== 'undefined' && typeof document !== 'undefined') {
-      const root = window.document.documentElement;
-      root.classList.remove("light", "dark");
-      root.classList.add(theme);
-      localStorage.setItem("theme", theme);
+    if (typeof document !== "undefined") {
+      const root = document.documentElement;
+      
+      // Remove previous theme classes
+      root.classList.remove("theme-cyber", "theme-emerald", "theme-sunset", "dark", "light");
+      
+      // Add current preset and mode classes
+      root.classList.add(`theme-${preset}`);
+      root.classList.add(mode);
+      
+      localStorage.setItem("portfolio-theme-preset", preset);
+      localStorage.setItem("portfolio-theme-mode", mode);
     }
-  }, [theme, mounted]);
+  }, [preset, mode]);
 
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-  };
-
-  const value = {
-    theme,
-    setTheme,
-    toggleTheme,
+  const toggleMode = () => {
+    setMode((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
   return (
-    <ThemeProviderContext.Provider value={value}>
+    <ThemeContext.Provider value={{ preset, mode, setPreset, setMode, toggleMode }}>
       {children}
-    </ThemeProviderContext.Provider>
+    </ThemeContext.Provider>
   );
 }
 
 export const useTheme = () => {
-  const context = useContext(ThemeProviderContext);
-
-  if (context === undefined)
+  const context = useContext(ThemeContext);
+  if (!context) {
     throw new Error("useTheme must be used within a ThemeProvider");
-
+  }
   return context;
 };

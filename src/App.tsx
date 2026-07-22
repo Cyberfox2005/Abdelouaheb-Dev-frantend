@@ -8,9 +8,7 @@ import { Services } from "./components/Services";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 import { ThemeProvider } from "./components/ThemeProvider";
-import { ThemeToggle } from "./components/ThemeToggle";
 import { LanguageProvider } from "./components/LanguageProvider";
-import { LanguageToggle } from "./components/LanguageToggle";
 import { TopNav } from "./components/TopNav";
 import { LoginPage } from "./pages/Login";
 import { SignupPage } from "./pages/Signup";
@@ -22,7 +20,6 @@ import { HelpPage } from "./pages/Help";
 import { ProjectPage } from "./pages/ProjectPage";
 import { ServicePage } from "./pages/ServicePage";
 
-
 import { ServiceProvider } from "./components/ServiceContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
@@ -31,72 +28,70 @@ import { Toaster } from "./components/ui/sonner";
 function AppContent() {
   return (
     <Router basename="/Abdelouaheb-Dev-frantend">
-      <div className="min-h-screen">
-        <style dangerouslySetInnerHTML={{ __html: `
-          @keyframes portal-swirl {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.1); }
-            100% { transform: rotate(360deg) scale(1); }
-          }
-          @keyframes magic-spark {
-            0% { transform: scale(0) translate(0, 0); opacity: 1; }
-            100% { transform: scale(1) translate(var(--tw-translate-x), var(--tw-translate-y)); opacity: 0; }
-          }
-        `}} />
+      <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] transition-colors duration-300">
         <TopNav />
-        <div className="fixed top-4 right-4 z-50 flex gap-3">
-          <LanguageToggle />
-          <ThemeToggle />
-        </div>
         <Routes>
-          <Route path="/" element={
-            <>
-              <Hero />
-              <About />
-              <Skills />
-              <Experience />
-              <Projects />
-              <Contact />
-              <Footer />
-            </>
-          } />
-          
+          <Route
+            path="/"
+            element={
+              <main>
+                <Hero />
+                <About />
+                <Skills />
+                <Experience />
+                <Projects />
+                <Contact />
+                <Footer />
+              </main>
+            }
+          />
+
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/cart" element={<CartPage />} />
-          <Route path="/projects" element={
-            <div className="min-h-screen" style={{ background: '#060b18' }}>
-              <TopNav />
-              <div className="pt-16">
+          <Route
+            path="/projects"
+            element={
+              <div className="min-h-screen pt-20">
+                <TopNav />
                 <Projects />
+                <Footer />
               </div>
-              <Footer />
-            </div>
-          } />
-          
+            }
+          />
+
           <Route path="/project/:title" element={<ProjectPage />} />
-          
-          <Route path="/profile" element={
-            <ProtectedRoute>
-              <ProfilePage />
-            </ProtectedRoute>
-          } />
-          <Route path="/settings" element={
-            <ProtectedRoute>
-              <SettingsPage />
-            </ProtectedRoute>
-          } />
-          
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <SettingsPage />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="/help" element={<HelpPage />} />
 
-          <Route path="/services" element={
-            <div className="bg-[#0B0F19] min-h-screen pt-16">
-              <Services />
-              <Footer />
-            </div>
-          } />
-          
+          <Route
+            path="/services"
+            element={
+              <div className="min-h-screen pt-20">
+                <Services />
+                <Footer />
+              </div>
+            }
+          />
+
           <Route path="/service/:id" element={<ServicePage />} />
         </Routes>
         <Toaster position="top-center" expand={true} richColors />
@@ -108,7 +103,7 @@ function AppContent() {
 export default function App() {
   return (
     <LanguageProvider>
-      <ThemeProvider defaultTheme="dark">
+      <ThemeProvider>
         <AuthProvider>
           <ServiceProvider>
             <AppContent />

@@ -1,190 +1,157 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Check, Sparkles, Clock, DollarSign, ArrowRight } from "lucide-react";
+import { api, ServiceItem } from "../services/api";
+import { OrderModal } from "./OrderModal";
 import { useLanguage } from "./LanguageProvider";
-import { useServiceManager } from "./ServiceContext";
-import { useNavigate } from "react-router-dom";
-import { 
-  X,
-  Star,
-  CheckCircle2
-} from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Service, clientServices, developerServices } from "../data/servicesData";
-
-function MagicParticles({ count = 20, color = "amber-500" }: { count?: number, color?: string }) {
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {[...Array(count)].map((_, i) => (
-        <div
-          key={i}
-          className={`absolute bg-${color}/30 rounded-full blur-[1px] animate-float-particle`}
-          style={{
-            width: Math.random() * 4 + 2 + 'px',
-            height: Math.random() * 4 + 2 + 'px',
-            top: Math.random() * 100 + '%',
-            left: Math.random() * 100 + '%',
-            animationDelay: Math.random() * 10 + 's',
-            animationDuration: Math.random() * 10 + 10 + 's',
-            opacity: Math.random() * 0.5 + 0.2
-          } as any}
-        />
-      ))}
-    </div>
-  );
-}
-
-function StarConnection({ className }: { className?: string }) {
-  return (
-    <svg className={`absolute inset-0 w-full h-full pointer-events-none z-0 hidden lg:block ${className}`} viewBox="0 0 1000 1000">
-      <defs>
-          <radialGradient id="serviceGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#f59e0b" stopOpacity="1" />
-            <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
-          </radialGradient>
-      </defs>
-      <path d="M 500 500 L 200 200" stroke="url(#serviceGlow)" strokeWidth="1" strokeDasharray="5 5" className="animate-pulse opacity-20" />
-      <path d="M 500 500 L 800 200" stroke="url(#serviceGlow)" strokeWidth="1" strokeDasharray="5 5" className="animate-pulse opacity-20" />
-      <path d="M 500 500 L 200 800" stroke="url(#serviceGlow)" strokeWidth="1" strokeDasharray="5 5" className="animate-pulse opacity-20" />
-      <path d="M 500 500 L 800 800" stroke="url(#serviceGlow)" strokeWidth="1" strokeDasharray="5 5" className="animate-pulse opacity-20" />
-      <path d="M 500 500 L 500 100" stroke="url(#serviceGlow)" strokeWidth="1" strokeDasharray="5 5" className="animate-pulse opacity-20" />
-    </svg>
-  );
-}
+import { motion } from "framer-motion";
 
 export function Services() {
   const { t } = useLanguage();
-  const { isServiceSelected } = useServiceManager();
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'clients' | 'developers'>('clients');
+  const [services, setServices] = useState<ServiceItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const displayedServices = activeTab === 'clients' ? clientServices : developerServices;
+  useEffect(() => {
+    async function loadServices() {
+      try {
+        const data = await api.getServices();
+        setServices(data);
+      } catch {
+        // Fallback default services
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadServices();
+  }, []);
 
-  return (
-    <section id="services" className="py-20 md:py-32 bg-[#0B0F19] relative overflow-hidden min-h-screen">
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes float-particle {
-          0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
-          25% { opacity: 0.6; }
-          50% { transform: translate(\${Math.random() * 100 - 50}px, \${Math.random() * -200}px) scale(1.2); opacity: 0.8; }
-          75% { opacity: 0.4; }
-        }
-        @keyframes service-float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-      `}} />
-
-      <MagicParticles color="amber-500" count={30} />
-      <StarConnection />
-      
-      <div className="absolute top-[10%] left-[10%] w-[600px] h-[600px] bg-amber-500/5 rounded-full blur-[180px] animate-pulse pointer-events-none" />
-      <div className="absolute bottom-[10%] right-[10%] w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[180px] animate-pulse pointer-events-none" style={{ animationDelay: '2s' }} />
-
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className="text-center mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-6xl md:text-8xl font-black mb-6 text-white tracking-widest italic drop-shadow-[0_0_20px_rgba(245,158,11,0.4)]"
-          >
-            {t('servicesTitle')}
-          </motion.h2>
-          <div className="w-32 h-1.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto mb-8 rounded-full" />
-          <p className="text-amber-100/60 max-w-2xl mx-auto text-xl font-light uppercase tracking-[0.3em] mb-12">
-            {t('servicesDescription')}
-          </p>
-
-          {/* Category Toggle */}
-          <div className="flex justify-center mb-12">
-            <div className="bg-white/5 p-2 rounded-full border border-white/10 flex items-center shadow-lg">
-              <button 
-                onClick={() => setActiveTab('clients')}
-                className={`px-8 py-3 rounded-full font-black uppercase tracking-widest text-sm transition-all duration-300 ${activeTab === 'clients' ? 'bg-amber-500 text-black shadow-[0_0_20px_rgba(245,158,11,0.4)]' : 'text-gray-400 hover:text-white'}`}
-              >
-                For Clients
-              </button>
-              <button 
-                onClick={() => setActiveTab('developers')}
-                className={`px-8 py-3 rounded-full font-black uppercase tracking-widest text-sm transition-all duration-300 ${activeTab === 'developers' ? 'bg-blue-500 text-black shadow-[0_0_20px_rgba(59,130,246,0.4)]' : 'text-gray-400 hover:text-white'}`}
-              >
-                For Developers
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {displayedServices.map((service, idx) => {
-            const isSelected = isServiceSelected(service.id);
-            return (
-              <ServiceCard 
-                key={service.id} 
-                service={service} 
-                delay={idx * 0.1} 
-                onClick={() => navigate(`/service/${service.id}`)}
-                isSelected={isSelected}
-              />
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ServiceCard({ service, delay, onClick, isSelected }: { 
-  service: Service, 
-  delay: number, 
-  onClick: () => void,
-  isSelected: boolean
-}) {
-  const { t } = useLanguage();
+  const handleOrderClick = (service: ServiceItem) => {
+    setSelectedService(service);
+    setIsModalOpen(true);
+  };
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay }}
-      onClick={onClick}
-      className="group relative cursor-pointer"
-    >
-      <motion.div 
-        className={`relative bg-white/[0.03] backdrop-blur-2xl rounded-[2.5rem] p-10 border transition-all duration-500 h-full overflow-hidden ${
-          isSelected ? "border-green-500/40" : "border-white/10 group-hover:border-amber-500/40"
-        }`}
-        whileHover={{ scale: 1.02, y: -10 }}
-      >
-        <div className={`absolute top-0 right-0 w-32 h-32 bg-${service.accentColor}/10 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity`} />
+    <section id="services" className="py-24 relative overflow-hidden bg-gray-50/40 dark:bg-slate-900/40">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         
-        {isSelected && (
-          <div className="absolute top-6 right-6">
-            <div className="p-2 bg-green-500/20 rounded-full text-green-400 border border-green-500/30">
-              <CheckCircle2 className="w-5 h-5" />
-            </div>
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--brand-cyan)]/10 text-[var(--brand-cyan)] text-xs sm:text-sm font-bold uppercase tracking-widest mb-3">
+            <Sparkles className="w-4 h-4" />
+            <span>{t("servicesTitle") || "Our Services"}</span>
           </div>
-        )}
-
-        <div className="relative z-10">
-          <div className={`w-16 h-16 rounded-2xl bg-${service.accentColor}/20 flex items-center justify-center mb-8 border border-${service.accentColor}/30 group-hover:scale-110 transition-transform`}>
-            <service.icon className={`w-8 h-8 text-${service.accentColor}`} />
-          </div>
-          
-          <h3 className="text-3xl font-bold text-white mb-4 group-hover:text-amber-400 transition-colors">
-            {service.name}
-          </h3>
-          
-          <p className="text-amber-100/40 text-sm leading-relaxed mb-10 font-light">
-            {service.description.slice(0, 100)}...
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-4">
+            Professional Web & Mobile Development
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg">
+            {t("servicesDescription") ||
+              "Select a service package or place a custom order to turn your product vision into reality"}
           </p>
-
-          <div className="flex items-center gap-3">
-             <button 
-              className="p-2 px-6 bg-amber-500 text-[#0B0F19] rounded-full font-black uppercase text-[10px] tracking-[0.2em] hover:bg-white transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)] w-full text-center"
-             >
-                Start Service
-             </button>
-          </div>
         </div>
-      </motion.div>
-    </motion.div>
+
+        {/* Pricing Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+          {services.map((service, idx) => (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              key={service.id}
+              className="rounded-3xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-gray-200/80 dark:border-gray-800/80 p-8 shadow-xl hover:shadow-2xl hover:border-[var(--brand-cyan)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden"
+            >
+              {/* Highlight ribbon for mid package */}
+              {idx === 1 && (
+                <div className="absolute top-0 right-0 bg-gradient-to-l from-[var(--brand-cyan)] to-[var(--brand-purple)] text-white text-[10px] font-black uppercase tracking-widest px-4 py-1 rounded-bl-xl">
+                  Most Popular
+                </div>
+              )}
+
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-[var(--brand-cyan)] transition-colors">
+                  {service.title}
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
+                  {service.description}
+                </p>
+
+                {/* Price Display */}
+                <div className="flex items-baseline gap-1 mb-6 pb-6 border-b border-gray-100 dark:border-gray-800">
+                  <span className="text-xs font-semibold text-gray-400">Starting at</span>
+                  <span className="text-4xl font-extrabold text-gray-900 dark:text-white">
+                    ${service.starting_price}
+                  </span>
+                </div>
+
+                {/* Delivery Time Badge */}
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-slate-800 text-xs font-semibold text-gray-700 dark:text-gray-300 mb-6">
+                  <Clock className="w-3.5 h-3.5 text-[var(--brand-cyan)]" />
+                  <span>Est. Delivery: {service.delivery_days} Days</span>
+                </div>
+
+                {/* Feature Checklist */}
+                <div className="space-y-3 mb-8">
+                  <div className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                    What's Included:
+                  </div>
+                  {service.features_json.map((feat, fIdx) => (
+                    <div key={fIdx} className="flex items-start gap-3 text-sm text-gray-700 dark:text-gray-300">
+                      <div className="p-0.5 rounded-full bg-emerald-500/10 text-emerald-500 mt-0.5">
+                        <Check className="w-3.5 h-3.5" />
+                      </div>
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Order Service Action Trigger */}
+              <button
+                onClick={() => handleOrderClick(service)}
+                className="w-full py-4 rounded-2xl bg-gradient-to-r from-[var(--brand-cyan)] to-[var(--brand-purple)] text-white font-bold text-sm shadow-md hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 group/btn"
+              >
+                <span>Order Service</span>
+                <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+              </button>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Custom Order Banner */}
+        <div className="mt-16 p-8 rounded-3xl bg-gradient-to-r from-[var(--brand-cyan)]/10 via-[var(--brand-purple)]/10 to-transparent border border-[var(--brand-cyan)]/20 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+              Need a Custom Solution or Enterprise Application?
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Submit your specific project specs, budget requirements, and desired timeline directly.
+            </p>
+          </div>
+
+          <button
+            onClick={() => {
+              setSelectedService(null);
+              setIsModalOpen(true);
+            }}
+            className="px-6 py-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white font-bold text-sm shadow-md hover:border-[var(--brand-cyan)] hover:scale-105 active:scale-95 transition-all duration-300 whitespace-nowrap"
+          >
+            Request Custom Project
+          </button>
+        </div>
+
+      </div>
+
+      {/* Order Modal Component */}
+      <OrderModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        selectedService={selectedService}
+        services={services}
+        onOrderSuccess={() => {
+          setIsModalOpen(false);
+        }}
+      />
+    </section>
   );
 }

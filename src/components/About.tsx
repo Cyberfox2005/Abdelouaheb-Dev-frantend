@@ -1,91 +1,99 @@
-import profileImageDark from "../assets/9924fd72bc599674567ae61e63466315b12bb425.png";
-import profileImageLight from "../assets/db191a8f1dc496e096a90c96c3790591f1a9bf77.png";
+import { Code2, Cpu, Smartphone, Award, CheckCircle2, User, Sparkles } from "lucide-react";
 import { useLanguage } from "./LanguageProvider";
-import { useTheme } from "./ThemeProvider";
-import { Mail, MapPin, Phone, Github, Linkedin, Code2, Award, Briefcase, GraduationCap } from "lucide-react";
-import { Badge } from "./ui/badge";
+import { motion } from "framer-motion";
 
 export function About() {
   const { t } = useLanguage();
-  const { theme } = useTheme();
-  
+
+  const stats = [
+    { label: t("projectsCompleted") || "Projects Completed", count: "15+", icon: Code2, color: "text-cyan-500" },
+    { label: t("techStacks") || "Tech Stacks", count: "12+", icon: Cpu, color: "text-purple-500" },
+    { label: "Years Experience", count: "3+", icon: Award, color: "text-emerald-500" },
+    { label: "Code Commits", count: "500+", icon: Smartphone, color: "text-orange-500" },
+  ];
+
+  const highlights = [
+    "Full-stack Web & Mobile Development",
+    "Clean, Modular & Maintainable Code",
+    "UI/UX Architecture & Glassmorphism Aesthetics",
+    "Performance Optimization & SEO Standards",
+  ];
+
   return (
-    <section id="about" className="py-16 md:py-24 bg-gray-50 dark:bg-brand-dark">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
-            <div className="grid lg:grid-cols-2 gap-0">
-              
-              <div className="bg-gray-50 dark:bg-gray-900 p-8 sm:p-12 flex flex-col items-center justify-center border-b lg:border-b-0 lg:border-r border-gray-100 dark:border-gray-700">
-                <img
-                  src={theme === 'light' ? profileImageLight : profileImageDark}
-                  alt={t('name')}
-                  className="rounded-3xl w-4/5 sm:w-full max-w-sm md:max-w-md object-cover shadow-sm"
-                />
-                
-                <div className="mt-8 flex gap-4">
-                  <a href="https://github.com/Cyberfox2005" target="_blank" rel="noopener noreferrer" 
-                     className="p-3 rounded-xl bg-white dark:bg-gray-800 hover:text-brand-cyan transition-colors shadow-sm">
-                    <Github className="h-5 w-5 sm:h-6 sm:w-6" />
-                  </a>
-                  <a href="https://www.linkedin.com/in/abdelouhab-benachi-4628632b0/" target="_blank" rel="noopener noreferrer"
-                     className="p-3 rounded-xl bg-white dark:bg-gray-800 hover:text-brand-green transition-colors shadow-sm">
-                    <Linkedin className="h-5 w-5 sm:h-6 sm:w-6" />
-                  </a>
-                  <a href="mailto:ben689533@gmail.com"
-                     className="p-3 rounded-xl bg-white dark:bg-gray-800 hover:text-brand-purple transition-colors shadow-sm">
-                    <Mail className="h-5 w-5 sm:h-6 sm:w-6" />
-                  </a>
-                </div>
-              </div>
+    <section id="about" className="py-24 relative overflow-hidden bg-gray-50/50 dark:bg-slate-900/30">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--brand-cyan)]/10 text-[var(--brand-cyan)] text-xs sm:text-sm font-bold uppercase tracking-widest mb-3">
+            <User className="w-4 h-4" />
+            <span>{t("aboutTitle") || "About Me"}</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+            {t("aboutHeading") || "Crafting Digital Experiences"}
+          </h2>
+        </div>
 
-              <div className="p-8 sm:p-12">
-                <Badge className="mb-4 sm:mb-6 px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm uppercase tracking-wider bg-brand-cyan/10 text-brand-cyan hover:bg-brand-cyan/20">
-                  {t('aboutTitle')}
-                </Badge>
-                
-                <h2 className="mb-2 text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-                  {t('name')}
-                </h2>
-                
-                <h3 className="text-lg sm:text-xl text-brand-cyan mb-6 sm:mb-8">
-                  {t('title')}
-                </h3>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Bio Description */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-7 space-y-6"
+          >
+            <div className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-gray-200/80 dark:border-gray-800 shadow-xl space-y-5">
+              <p className="text-base sm:text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                {t("aboutParagraph1") ||
+                  "I'm a passionate Web and Mobile Developer based in Algiers, Algeria, specializing in building dynamic and responsive applications that deliver exceptional user experiences. With expertise spanning both frontend and backend technologies, I bring ideas to life through clean, efficient code."}
+              </p>
+              <p className="text-base sm:text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                {t("aboutParagraph2") ||
+                  "My technical arsenal includes modern frameworks like React, React Native, Laravel, and Django, combined with proficiency in multiple programming languages including JavaScript, PHP, Python, Java, C++, and C#. I excel at creating full-stack solutions that are both scalable and maintainable."}
+              </p>
 
-                <div className="space-y-4 mb-8 sm:mb-10 text-base sm:text-lg text-gray-600 dark:text-gray-400">
-                  <p>{t('aboutParagraph1')}</p>
-                  <p>{t('aboutParagraph2')}</p>
-                  <p>{t('aboutParagraph3')}</p>
-                </div>
-
-                <div className="space-y-3 sm:space-y-4 mb-8 sm:mb-10">
-                  <div className="flex items-center gap-3 sm:gap-4 break-all">
-                    <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 shrink-0" />
-                    <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300">ben689533@gmail.com</span>
+              {/* Highlights Bullet List */}
+              <div className="pt-4 border-t border-gray-100 dark:border-gray-800 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {highlights.map((item, idx) => (
+                  <div key={idx} className="flex items-center gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-[var(--brand-cyan)] flex-shrink-0" />
+                    <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200">
+                      {item}
+                    </span>
                   </div>
-                  <div className="flex items-center gap-3 sm:gap-4">
-                    <Phone className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 shrink-0" />
-                    <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300">+213 553 120 173</span>
-                  </div>
-                  <div className="flex items-center gap-3 sm:gap-4">
-                    <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 shrink-0" />
-                    <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300">Constantine, Algeria</span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                  <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800">
-                    <div className="text-2xl font-bold text-brand-cyan mb-1">8+</div>
-                    <div className="text-sm text-gray-500">{t('projectsCompleted')}</div>
-                  </div>
-                  <div className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800">
-                    <div className="text-2xl font-bold text-brand-green mb-1">20+</div>
-                    <div className="text-sm text-gray-500">{t('techStacks')}</div>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
-          </div>
+          </motion.div>
+
+          {/* Quick Stats Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-5 grid grid-cols-2 gap-4"
+          >
+            {stats.map((stat, idx) => (
+              <div
+                key={idx}
+                className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-gray-200/80 dark:border-gray-800 shadow-xl hover:border-[var(--brand-cyan)]/50 hover:-translate-y-1 transition-all duration-300 group"
+              >
+                <div className="p-3 rounded-2xl bg-gray-100 dark:bg-slate-800 w-fit mb-4 group-hover:scale-110 transition-transform">
+                  <stat.icon className={`w-6 h-6 ${stat.color}`} />
+                </div>
+                <div className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-1">
+                  {stat.count}
+                </div>
+                <div className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+
         </div>
       </div>
     </section>
