@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Sparkles, Zap, Shield, Target } from "lucide-react";
+import { Zap, Shield, Target } from "lucide-react";
+import personalPhoto from "../assets/photo_2026-03-22_17-55-35.jpg";
 
 export function About() {
   return (
@@ -47,7 +48,7 @@ export function About() {
             </div>
           </motion.div>
 
-          {/* Abstract Visualization */}
+          {/* Personal Photo Visualization */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -67,10 +68,14 @@ export function About() {
                 className="w-4/5 h-4/5 border border-brand-cyan/10 rounded-[35%] opacity-30"
               />
 
-              {/* Central Abstract Icon */}
-              <div className="relative z-10 w-48 h-48 bg-gradient-to-tr from-[#101827] to-[#0A0F1E] rounded-3xl border border-white/10 shadow-2xl flex items-center justify-center group overflow-hidden">
-                <div className="absolute inset-0 bg-brand-cyan/5 group-hover:bg-brand-cyan/10 transition-colors" />
-                <Shield className="w-20 h-20 text-brand-cyan drop-shadow-[0_0_15px_rgba(0,212,255,0.4)]" />
+              {/* Central Photo Container */}
+              <div className="relative z-10 w-64 h-64 sm:w-80 sm:h-80 rounded-3xl border border-white/10 shadow-2xl flex items-center justify-center group overflow-hidden bg-slate-900">
+                <div className="absolute inset-0 bg-brand-cyan/5 group-hover:bg-transparent transition-colors z-20" />
+                <img
+                  src={personalPhoto}
+                  alt="Abdelouaheb Benachi"
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100"
+                />
               </div>
             </div>
 

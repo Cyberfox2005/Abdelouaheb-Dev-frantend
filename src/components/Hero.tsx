@@ -162,9 +162,9 @@ export function Hero() {
                   rotateY: -mouseX.current,
                 }}
               >
-                {/* The New Minimal Monogram Monolith */}
+                {/* The New Master Emblem (Cinematic Version) */}
                 <div className="relative z-10 w-3/4 h-3/4">
-                   <Logo variant="minimal" size={400} className="w-full h-full drop-shadow-[0_0_50px_rgba(0,212,255,0.3)]" />
+                   <Logo variant="cinematic" className="w-full h-full drop-shadow-[0_0_50px_rgba(0,212,255,0.4)]" />
 
                    {/* Floating Tech Specs */}
                    <motion.div
