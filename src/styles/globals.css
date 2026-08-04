@@ -1,25 +1,24 @@
 :root {
   --font-size: 16px;
   
-  /* Brand Colors */
-  --brand-cyan: #00D4FF;
-  --brand-blue: #3B82F6;
-  --brand-purple: #7C3AED;
-  --brand-lavender: #A855F7;
-  --brand-gold: #F59E0B;
+  /* LUXURY TECHNOLOGY PALETTE */
+  --brand-cyan: #00D4FF;     /* Electric Cyan */
+  --brand-blue: #3B82F6;     /* Neon Blue */
+  --brand-purple: #7C3AED;   /* Royal Purple */
+  --brand-silver: #E2E8F0;   /* Titanium Silver */
 
-  /* Backgrounds */
+  /* DEEP SPACE BACKGROUNDS */
   --background: #05070B;
-  --background-alt: #0A0F1E;
-  --background-card: #101827;
+  --background-alt: #080C14;
+  --background-card: #0D121F;
 
-  --foreground: #F8FAFC;
+  --foreground: #FFFFFF;
 
-  --card: rgba(16, 24, 39, 0.7);
-  --card-foreground: #F8FAFC;
+  --card: rgba(13, 18, 31, 0.8);
+  --card-foreground: #FFFFFF;
 
   --primary: #00D4FF;
-  --primary-foreground: #FFFFFF;
+  --primary-foreground: #05070B;
 
   --secondary: #7C3AED;
   --secondary-foreground: #FFFFFF;
@@ -30,11 +29,11 @@
   --accent: #3B82F6;
   --accent-foreground: #FFFFFF;
 
-  --border: rgba(0, 212, 255, 0.1);
-  --input: rgba(0, 212, 255, 0.05);
-  --input-background: rgba(10, 15, 30, 0.8);
+  --border: rgba(255, 255, 255, 0.05);
+  --input: rgba(255, 255, 255, 0.03);
+  --input-background: rgba(5, 7, 11, 0.9);
   --ring: #00D4FF;
-  --radius: 1rem;
+  --radius: 0.75rem;
 }
 
 .dark {

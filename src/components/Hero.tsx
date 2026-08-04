@@ -145,14 +145,13 @@ export function Hero() {
               transition={{ duration: 1, delay: 0.2 }}
               className="relative aspect-square flex items-center justify-center"
             >
+              {/* Monolithic Backdrop */}
+              <div className="absolute inset-[15%] bg-brand-cyan/5 rounded-[40px] blur-[60px]" />
+
               {/* Outer Glowing Ring */}
               <motion.div
                 style={{ y: y1, rotate }}
                 className="absolute inset-0 border border-white/5 rounded-full"
-              />
-              <motion.div
-                style={{ y: y2, rotate: -rotate }}
-                className="absolute inset-[10%] border border-brand-cyan/10 rounded-full"
               />
 
               {/* Central Emblem Container */}
@@ -163,24 +162,18 @@ export function Hero() {
                   rotateY: -mouseX.current,
                 }}
               >
-                {/* Logo with Glow */}
-                <div className="relative z-10 w-4/5 h-4/5">
-                   <Logo className="w-full h-full" />
+                {/* The New Minimal Monogram Monolith */}
+                <div className="relative z-10 w-3/4 h-3/4">
+                   <Logo variant="minimal" size={400} className="w-full h-full drop-shadow-[0_0_50px_rgba(0,212,255,0.3)]" />
 
-                   {/* Tech Badges Orbiting */}
+                   {/* Floating Tech Specs */}
                    <motion.div
-                    animate={{ y: [0, -20, 0] }}
+                    animate={{ y: [0, -10, 0] }}
                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute -top-4 right-0 glass px-4 py-2 rounded-xl text-[10px] font-bold text-brand-cyan uppercase tracking-widest border border-brand-cyan/20"
+                    className="absolute top-10 right-0 border border-white/10 bg-black/40 backdrop-blur-md px-4 py-2 rounded-lg"
                    >
-                     Flutter
-                   </motion.div>
-                   <motion.div
-                    animate={{ y: [0, 20, 0] }}
-                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                    className="absolute bottom-10 -left-4 glass px-4 py-2 rounded-xl text-[10px] font-bold text-brand-purple uppercase tracking-widest border border-brand-purple/20"
-                   >
-                     Kotlin
+                     <div className="text-[8px] font-mono text-gray-500 uppercase">Architecture</div>
+                     <div className="text-[10px] font-bold text-white tracking-widest uppercase">Distributed</div>
                    </motion.div>
                 </div>
 

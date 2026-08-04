@@ -3,7 +3,7 @@ import { Menu, X, FileText, Sparkles } from "lucide-react";
 import { LanguageToggle } from "./LanguageToggle";
 import { useLanguage } from "./LanguageProvider";
 import { motion, AnimatePresence } from "framer-motion";
-import { Logo } from "./Logo";
+import { YDHorizontalLogo } from "./BrandAssets";
 
 export function TopNav() {
   const { t } = useLanguage();
@@ -70,16 +70,7 @@ export function TopNav() {
           className="flex items-center gap-3 group text-left focus:outline-none"
           aria-label="Yugurtha Dev HQ - Return to Top"
         >
-          <Logo className="w-12 h-12 group-hover:scale-110 transition-transform duration-500" />
-          <div className="flex flex-col">
-            <span className="font-extrabold text-lg sm:text-2xl tracking-tight text-white flex items-center gap-2">
-              YUGURTHA
-              <span className="text-brand-cyan">DEV</span>
-            </span>
-            <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-gray-500">
-              Future Software Engineering
-            </span>
-          </div>
+          <YDHorizontalLogo size={40} className="group-hover:scale-105 transition-transform duration-300" />
         </button>
 
         {/* Desktop Navigation Links */}
