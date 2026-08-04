@@ -70,7 +70,7 @@ export function TopNav() {
           className="flex items-center gap-3 group text-left focus:outline-none"
           aria-label="Yugurtha Dev HQ - Return to Top"
         >
-          <Logo className="w-10 h-10 group-hover:scale-105 transition-transform duration-300" />
+          <Logo className="w-12 h-12 group-hover:scale-110 transition-transform duration-500" />
           <div className="flex flex-col">
             <span className="font-extrabold text-lg sm:text-2xl tracking-tight text-white flex items-center gap-2">
               YUGURTHA

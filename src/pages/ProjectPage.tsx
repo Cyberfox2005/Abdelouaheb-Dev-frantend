@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { ProjectDetails } from "../components/ProjectDetails";
-import { PROJECTS } from "../components/Projects";
+import { projectsData } from "../data/projectsData";
 import { TopNav } from "../components/TopNav";
 import { Footer } from "../components/Footer";
 import { useEffect } from "react";
@@ -9,7 +9,7 @@ export function ProjectPage() {
   const { title } = useParams<{ title: string }>();
   const navigate = useNavigate();
   
-  const project = PROJECTS.find(p => p.title === decodeURIComponent(title || ''));
+  const project = projectsData.find(p => p.title === decodeURIComponent(title || ''));
 
   useEffect(() => {
     window.scrollTo(0, 0);
