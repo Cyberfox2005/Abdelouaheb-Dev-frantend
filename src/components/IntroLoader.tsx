@@ -60,7 +60,7 @@ export function IntroLoader() {
               transition={{ duration: 1.5, delay: 0.5 }}
               className="mb-12"
             >
-              <Logo className="w-32 h-32" />
+              <Logo variant="cinematic" className="w-32 h-32" />
             </motion.div>
 
             {/* Glowing Aura behind logo */}

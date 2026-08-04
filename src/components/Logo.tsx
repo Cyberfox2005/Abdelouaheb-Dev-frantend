@@ -12,25 +12,25 @@ export function Logo({ className, variant = "minimal", size }: LogoProps) {
   if (variant === "cinematic") {
     return (
       <motion.div
-        className={`relative flex items-center justify-center ${className}`}
-        whileHover={{ scale: 1.05 }}
+        className={`relative flex items-center justify-center rounded-full border-2 border-brand-cyan/30 p-2 overflow-hidden shadow-[0_0_30px_rgba(0,212,255,0.2)] bg-[#05070B] ${className}`}
+        whileHover={{ scale: 1.05, borderColor: "rgba(0, 212, 255, 0.6)" }}
         whileTap={{ scale: 0.95 }}
       >
         {/* Background Glow */}
-        <div className="absolute inset-0 bg-brand-cyan/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute inset-0 bg-brand-purple/10 rounded-full blur-2xl animate-pulse delay-75" />
+        <div className="absolute inset-0 bg-brand-cyan/10 rounded-full blur-2xl animate-pulse" />
 
         <img
           src={cinematicLogo}
           alt="YUGURTHA DEV Cinematic Emblem"
-          className="relative z-10 w-full h-full object-contain drop-shadow-[0_0_25px_rgba(0,212,255,0.6)] filter brightness-110 contrast-110"
+          className="relative z-10 w-full h-full object-cover rounded-full filter brightness-110 contrast-110"
         />
 
+        {/* Inner Spinning Ring */}
         <motion.div
-          className="absolute inset-0 border border-brand-cyan/10 rounded-full"
+          className="absolute inset-1 border border-dashed border-brand-cyan/20 rounded-full"
           initial={{ rotate: 0 }}
           animate={{ rotate: 360 }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         />
       </motion.div>
     );
