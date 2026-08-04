@@ -4,11 +4,13 @@ import { ProjectCard } from "./ProjectCard";
 import { useLanguage } from "./LanguageProvider";
 import { motion, AnimatePresence } from "framer-motion";
 
+import { Project } from "../data/projectsData";
+
 export function Projects() {
   const { t } = useLanguage();
-  const [activeCategory, setActiveCategory] = useState<"all" | "fullstack" | "frontend" | "mobile" | "system">("all");
+  const [activeCategory, setActiveCategory] = useState<Project["category"] | "all">("all");
 
-  const categories = [
+  const categories: { id: Project["category"] | "all"; label: string }[] = [
     { id: "all", label: "All Operations" },
     { id: "fullstack", label: "Full-Stack" },
     { id: "frontend", label: "Frontend" },

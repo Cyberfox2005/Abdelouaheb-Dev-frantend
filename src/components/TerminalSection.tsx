@@ -63,6 +63,8 @@ export function TerminalSection() {
           {/* Terminal Body */}
           <div
             ref={scrollRef}
+            role="log"
+            aria-live="polite"
             className="p-8 h-[400px] overflow-y-auto font-mono text-sm space-y-4 custom-scrollbar"
           >
             {history.map((item, i) => (

@@ -2,14 +2,20 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Github, Star, GitFork, Users, Code } from "lucide-react";
 
+interface GitHubData {
+  public_repos: number;
+  followers: number;
+  public_gists: number;
+}
+
 export function GitHubStats() {
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<GitHubData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://api.github.com/users/Cyberfox2005")
       .then(res => res.json())
-      .then(data => {
+      .then((data: GitHubData) => {
         setStats(data);
         setLoading(false);
       })

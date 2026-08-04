@@ -34,9 +34,10 @@ export function Contact() {
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            className="rtl:text-right"
           >
             <h2 className="text-5xl sm:text-7xl font-black text-white mb-8 uppercase tracking-tighter">
-              {t("contact").split(' ')[0]} <span className="text-brand-cyan">{t("contact").split(' ')[1] || "Contact"}</span>
+              {t("contact").split(' ')[0]} <span className="text-brand-cyan">{t("contact").split(' ')[1] || ""}</span>
             </h2>
             <p className="text-lg text-gray-500 mb-12 max-w-md leading-relaxed">
               Every great application begins with an idea. Let's synchronize and build your digital vision into reality.
@@ -101,7 +102,7 @@ export function Contact() {
                     className="w-full bg-transparent border-b border-white/10 py-4 text-white focus:border-brand-cyan focus:outline-none transition-all peer"
                     placeholder=" "
                   />
-                  <label className="absolute left-0 top-4 text-gray-500 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-brand-cyan peer-focus:text-xs peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-brand-cyan peer-[:not(:placeholder-shown)]:text-xs">
+                  <label className="absolute left-0 rtl:left-auto rtl:right-0 top-4 text-gray-500 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-brand-cyan peer-focus:text-xs peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-brand-cyan peer-[:not(:placeholder-shown)]:text-xs">
                     {t("yourName")}
                   </label>
                 </div>
@@ -115,7 +116,7 @@ export function Contact() {
                     className="w-full bg-transparent border-b border-white/10 py-4 text-white focus:border-brand-cyan focus:outline-none transition-all peer"
                     placeholder=" "
                   />
-                  <label className="absolute left-0 top-4 text-gray-500 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-brand-cyan peer-focus:text-xs peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-brand-cyan peer-[:not(:placeholder-shown)]:text-xs">
+                  <label className="absolute left-0 rtl:left-auto rtl:right-0 top-4 text-gray-500 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-brand-cyan peer-focus:text-xs peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-brand-cyan peer-[:not(:placeholder-shown)]:text-xs">
                     {t("yourEmail")}
                   </label>
                 </div>
@@ -129,7 +130,7 @@ export function Contact() {
                     className="w-full bg-transparent border-b border-white/10 py-4 text-white focus:border-brand-cyan focus:outline-none transition-all peer resize-none"
                     placeholder=" "
                   />
-                  <label className="absolute left-0 top-4 text-gray-500 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-brand-cyan peer-focus:text-xs peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-brand-cyan peer-[:not(:placeholder-shown)]:text-xs">
+                  <label className="absolute left-0 rtl:left-auto rtl:right-0 top-4 text-gray-500 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-brand-cyan peer-focus:text-xs peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-brand-cyan peer-[:not(:placeholder-shown)]:text-xs">
                     {t("yourMessage")}
                   </label>
                 </div>

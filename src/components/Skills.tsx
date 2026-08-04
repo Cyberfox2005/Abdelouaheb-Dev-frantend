@@ -3,11 +3,13 @@ import { useState } from "react";
 import { skillsData } from "../data/skillsData";
 import { useLanguage } from "./LanguageProvider";
 
+import { SkillItem } from "../data/skillsData";
+
 export function Skills() {
   const { t } = useLanguage();
-  const [activeCategory, setActiveCategory] = useState<"all" | "frontend" | "backend" | "tools">("all");
+  const [activeCategory, setActiveCategory] = useState<SkillItem["category"] | "all">("all");
 
-  const categories = [
+  const categories: { id: SkillItem["category"] | "all"; label: string }[] = [
     { id: "all", label: "Unified Intelligence" },
     { id: "frontend", label: "UI Engineering" },
     { id: "backend", label: "Core Systems" },
@@ -60,7 +62,7 @@ export function Skills() {
   );
 }
 
-function SkillOrb({ skill, index }: { skill: any; index: number }) {
+function SkillOrb({ skill, index }: { skill: SkillItem; index: number }) {
   return (
     <motion.div
       layout

@@ -1,4 +1,22 @@
+import { motion } from "framer-motion";
+import { useMemo } from "react";
+
 export function AnimatedBackground() {
+  const nodes = useMemo(() => [...Array(10)].map((_, i) => ({
+    id: i,
+    cx: Math.random() * 100 + "%",
+    cy: Math.random() * 100 + "%",
+    duration: 3 + Math.random() * 5,
+    delay: Math.random() * 5
+  })), []);
+
+  const fragments = useMemo(() => [...Array(8)].map((_, i) => ({
+    id: i,
+    top: `${Math.random() * 100}%`,
+    left: `${Math.random() * 100}%`,
+    duration: 20 + Math.random() * 20
+  })), []);
+
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-1] bg-[#05070B]">
       {/* Digital Grid */}
@@ -46,16 +64,16 @@ export function AnimatedBackground() {
         />
 
         {/* Nodes */}
-        {[...Array(10)].map((_, i) => (
+        {nodes.map((node) => (
           <motion.circle
-            key={i}
-            cx={Math.random() * 100 + "%"}
-            cy={Math.random() * 100 + "%"}
+            key={node.id}
+            cx={node.cx}
+            cy={node.cy}
             r="1"
             fill="var(--brand-cyan)"
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 0.5, 0] }}
-            transition={{ duration: 3 + Math.random() * 5, repeat: Infinity, delay: Math.random() * 5 }}
+            transition={{ duration: node.duration, repeat: Infinity, delay: node.delay }}
           />
         ))}
       </svg>
@@ -80,20 +98,20 @@ export function AnimatedBackground() {
 
       {/* Floating Code Fragments */}
       <div className="absolute inset-0 font-mono text-[8px] text-brand-cyan/10 select-none">
-        {[...Array(8)].map((_, i) => (
+        {fragments.map((frag) => (
           <motion.div
-            key={i}
+            key={frag.id}
             className="absolute whitespace-nowrap"
             style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
+              top: frag.top,
+              left: frag.left,
             }}
             animate={{
               y: [0, -100],
               opacity: [0, 1, 0],
             }}
             transition={{
-              duration: 20 + Math.random() * 20,
+              duration: frag.duration,
               repeat: Infinity,
               ease: "linear",
             }}

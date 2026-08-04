@@ -3,11 +3,18 @@ import { useEffect, useState } from "react";
 import { Logo } from "./Logo";
 
 export function IntroLoader() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [text, setText] = useState("");
   const fullText = "INITIALIZING YUGURTHA_DEV OS...";
 
   useEffect(() => {
+    const hasSeenIntro = sessionStorage.getItem("hasSeenIntro");
+    if (hasSeenIntro) {
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
     let i = 0;
     const interval = setInterval(() => {
       setText(fullText.slice(0, i));
@@ -15,7 +22,11 @@ export function IntroLoader() {
       if (i > fullText.length) clearInterval(interval);
     }, 50);
 
-    const timer = setTimeout(() => setLoading(false), 3500);
+    const timer = setTimeout(() => {
+      setLoading(false);
+      sessionStorage.setItem("hasSeenIntro", "true");
+    }, 3500);
+
     return () => {
       clearInterval(interval);
       clearTimeout(timer);

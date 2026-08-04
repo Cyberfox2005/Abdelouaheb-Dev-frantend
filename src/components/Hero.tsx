@@ -89,6 +89,7 @@ export function Hero() {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
+              className="rtl:text-right"
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-brand-cyan text-xs font-bold tracking-[0.2em] uppercase mb-8 backdrop-blur-md">
                 <span className="w-2 h-2 rounded-full bg-brand-cyan animate-ping" />

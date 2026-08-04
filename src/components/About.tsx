@@ -12,6 +12,7 @@ export function About() {
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            className="rtl:text-right"
           >
             <div className="flex items-center gap-4 mb-8">
               <div className="h-[2px] w-12 bg-brand-cyan" />
