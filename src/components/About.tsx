@@ -20,18 +20,18 @@ export function About() {
             </div>
 
             <h2 className="text-5xl sm:text-7xl font-black text-white mb-10 uppercase tracking-tighter">
-              Legacy of <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-purple">Excellence</span>
+              Legacy of <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple">Abdelouaheb Benachi</span>
             </h2>
 
             <div className="space-y-6 text-lg text-gray-400 leading-relaxed">
               <p>
-                Rooted in the resilient spirit of <span className="text-white font-medium">Amazigh heritage</span>, my journey in software engineering is driven by the same quest for leadership and innovation that defined the greats.
+                Based in <span className="text-white font-medium">Algiers, Algeria</span>, I am a Software Engineer driven by the quest for leadership and innovation. My journey is defined by digital craftsmanship and a commitment to excellence.
               </p>
               <p>
-                From my early fascination with how systems breathe to mastering the complexity of <span className="text-white font-medium">distributed backends</span> and <span className="text-white font-medium">fluid cross-platform interfaces</span>, I view code as a medium for digital craftsmanship.
+                I specialize in mastering the complexity of <span className="text-white font-medium">Distributed Backends</span> and <span className="text-white font-medium">Fluid Cross-Platform Interfaces</span>. My core expertise includes <span className="text-brand-cyan">Flutter</span>, <span className="text-brand-blue">Kotlin</span>, <span className="text-brand-purple">Spring Boot</span>, <span className="text-brand-cyan">Django</span>, and <span className="text-brand-blue">Laravel</span>.
               </p>
               <p>
-                I don't just build applications; I engineer ecosystems. Every pixel and every line of code is intentional, serving a purpose beyond mere functionality—it's about creating an <span className="text-white font-medium">unforgettable impact</span>.
+                I don't just build applications; I engineer ecosystems. Every pixel and every line of code is intentional, serving a purpose beyond mere functionality—it's about creating an <span className="text-white font-medium">unforgettable digital experience</span>.
               </p>
             </div>
 
