@@ -17,14 +17,14 @@ export function ProjectPage() {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-[#060b18] flex items-center justify-center text-white">
+      <div className="min-h-screen bg-[#05070B] flex items-center justify-center text-white">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Project not found</h1>
+          <h1 className="text-2xl font-bold mb-4">Mission Data Not Found</h1>
           <button 
-            onClick={() => navigate('/projects')}
-            className="px-4 py-2 bg-amber-500 text-black font-semibold rounded-full hover:bg-amber-400"
+            onClick={() => navigate('/')}
+            className="px-6 py-2 bg-brand-cyan text-black font-black uppercase tracking-widest rounded-lg"
           >
-            Back to Projects
+            Return to HQ
           </button>
         </div>
       </div>
@@ -32,10 +32,9 @@ export function ProjectPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--store-bg)]">
-      <TopNav />
-      <div className="pt-16">
-        <ProjectDetails project={project} onClose={() => navigate('/projects')} />
+    <div className="min-h-screen bg-[#05070B]">
+      <div className="pt-0">
+        <ProjectDetails project={project} onClose={() => navigate('/')} />
       </div>
       <Footer />
     </div>

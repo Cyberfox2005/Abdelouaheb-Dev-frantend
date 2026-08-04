@@ -2,61 +2,58 @@ import { useState } from "react";
 import { projectsData } from "../data/projectsData";
 import { ProjectCard } from "./ProjectCard";
 import { useLanguage } from "./LanguageProvider";
-import { motion } from "framer-motion";
-import { FolderGit2, Layers } from "lucide-react";
-
-export { projectsData as PROJECTS };
+import { motion, AnimatePresence } from "framer-motion";
 
 export function Projects() {
   const { t } = useLanguage();
-  const [filter, setFilter] = useState<"all" | "fullstack" | "frontend" | "mobile" | "system">("all");
+  const [activeCategory, setActiveCategory] = useState<"all" | "fullstack" | "frontend" | "mobile" | "system">("all");
 
   const categories = [
-    { id: "all", label: "All Projects" },
+    { id: "all", label: "All Operations" },
     { id: "fullstack", label: "Full-Stack" },
     { id: "frontend", label: "Frontend" },
-    { id: "mobile", label: "Mobile Apps" },
-    { id: "system", label: "Systems & C++" },
+    { id: "mobile", label: "Mobile" },
+    { id: "system", label: "Low-Level" },
   ];
 
   const filteredProjects = projectsData.filter((p) =>
-    filter === "all" ? true : p.category === filter
+    activeCategory === "all" ? true : p.category === activeCategory
   );
 
   return (
-    <section id="projects" className="py-24 relative overflow-hidden bg-gray-50/50 dark:bg-slate-900/30">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+    <section id="projects" className="py-32 bg-[#05070B] relative overflow-hidden">
+      <div className="container mx-auto px-4 max-w-7xl relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--brand-cyan)]/10 text-[var(--brand-cyan)] text-xs sm:text-sm font-bold uppercase tracking-widest mb-3">
-            <FolderGit2 className="w-4 h-4" />
-            <span>{t("projectsTitle") || "Featured Projects"}</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-4">
-            Showcase of Modern Applications
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg">
-            {t("projectsDescription") ||
-              "A collection of projects showcasing my expertise in web, mobile, and full-stack development"}
-          </p>
-        </div>
+        <div className="mb-20">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-4 mb-6"
+          >
+            <div className="h-[2px] w-12 bg-brand-cyan" />
+            <span className="text-brand-cyan text-xs font-black uppercase tracking-[0.4em]">Operations</span>
+          </motion.div>
 
-        {/* Filter Category Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setFilter(cat.id as any)}
-              className={`px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${
-                filter === cat.id
-                  ? "bg-gradient-to-r from-[var(--brand-cyan)] to-[var(--brand-purple)] text-white shadow-lg shadow-[var(--brand-cyan)]/25 scale-105"
-                  : "bg-white/80 dark:bg-slate-900/80 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-gray-800"
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
+          <h2 className="text-5xl sm:text-7xl font-black text-white mb-10 uppercase tracking-tighter">
+            Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-purple">Missions</span>
+          </h2>
+
+          <div className="flex flex-wrap gap-4">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id as any)}
+                className={`px-8 py-3 rounded-xl text-[10px] font-black tracking-widest uppercase transition-all duration-300 border ${
+                  activeCategory === cat.id
+                    ? "bg-brand-cyan text-black border-brand-cyan shadow-[0_0_20px_rgba(0,212,255,0.3)]"
+                    : "bg-transparent text-gray-500 border-white/5 hover:border-brand-cyan/20"
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Projects Grid */}
@@ -64,20 +61,43 @@ export function Projects() {
           layout
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {filteredProjects.map((project, idx) => (
-            <motion.div
-              layout
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              key={project.id}
-            >
-              <ProjectCard project={project} />
-            </motion.div>
-          ))}
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project, idx) => (
+              <motion.div
+                key={project.id}
+                layout
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+              >
+                <ProjectCard project={project} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </motion.div>
 
+        {/* GitHub CTA */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="mt-20 text-center"
+        >
+          <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest">More experiments on GitHub</p>
+          <a
+            href="https://github.com/Cyberfox2005"
+            target="_blank"
+            className="inline-flex items-center gap-3 text-white font-bold group"
+          >
+            Explore Repositories
+            <motion.span
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              →
+            </motion.span>
+          </a>
+        </motion.div>
       </div>
     </section>
   );

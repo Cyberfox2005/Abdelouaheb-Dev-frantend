@@ -1,8 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Hero } from "./components/Hero";
+import { TerminalSection } from "./components/TerminalSection";
 import { About } from "./components/About";
 import { Skills } from "./components/Skills";
 import { Projects } from "./components/Projects";
+import { GitHubStats } from "./components/GitHubStats";
+import { CodeSnippet } from "./components/CodeSnippet";
 import { Experience } from "./components/Experience";
 import { Services } from "./components/Services";
 import { Contact } from "./components/Contact";
@@ -10,25 +13,19 @@ import { Footer } from "./components/Footer";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { LanguageProvider } from "./components/LanguageProvider";
 import { TopNav } from "./components/TopNav";
-import { LoginPage } from "./pages/Login";
-import { SignupPage } from "./pages/Signup";
-import { NotificationsPage } from "./pages/Notifications";
-import { ProfilePage } from "./pages/Profile";
-import { CartPage } from "./pages/Cart";
-import { SettingsPage } from "./pages/Settings";
-import { HelpPage } from "./pages/Help";
 import { ProjectPage } from "./pages/ProjectPage";
-import { ServicePage } from "./pages/ServicePage";
-
-import { ServiceProvider } from "./components/ServiceContext";
-import { AuthProvider } from "./contexts/AuthContext";
-import { ProtectedRoute } from "./components/ProtectedRoute";
+import { AnimatedBackground } from "./components/AnimatedBackground";
+import { IntroLoader } from "./components/IntroLoader";
+import { CustomCursor } from "./components/CustomCursor";
 import { Toaster } from "./components/ui/sonner";
 
 function AppContent() {
   return (
     <Router basename="/Abdelouaheb-Dev-frantend">
-      <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] transition-colors duration-300">
+      <div className="min-h-screen bg-background text-foreground selection:bg-brand-cyan/30 selection:text-white">
+        <IntroLoader />
+        <CustomCursor />
+        <AnimatedBackground />
         <TopNav />
         <Routes>
           <Route
@@ -36,63 +33,20 @@ function AppContent() {
             element={
               <main>
                 <Hero />
+                <TerminalSection />
                 <About />
                 <Skills />
                 <Experience />
+                <Services />
                 <Projects />
+                <GitHubStats />
+                <CodeSnippet />
                 <Contact />
                 <Footer />
               </main>
             }
           />
-
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/notifications" element={<NotificationsPage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route
-            path="/projects"
-            element={
-              <div className="min-h-screen pt-20">
-                <TopNav />
-                <Projects />
-                <Footer />
-              </div>
-            }
-          />
-
           <Route path="/project/:title" element={<ProjectPage />} />
-
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <ProtectedRoute>
-                <SettingsPage />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route path="/help" element={<HelpPage />} />
-
-          <Route
-            path="/services"
-            element={
-              <div className="min-h-screen pt-20">
-                <Services />
-                <Footer />
-              </div>
-            }
-          />
-
-          <Route path="/service/:id" element={<ServicePage />} />
         </Routes>
         <Toaster position="top-center" expand={true} richColors />
       </div>
@@ -104,11 +58,7 @@ export default function App() {
   return (
     <LanguageProvider>
       <ThemeProvider>
-        <AuthProvider>
-          <ServiceProvider>
-            <AppContent />
-          </ServiceProvider>
-        </AuthProvider>
+        <AppContent />
       </ThemeProvider>
     </LanguageProvider>
   );

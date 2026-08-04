@@ -1,101 +1,121 @@
-import { ExternalLink, Github, Star, GitFork } from "lucide-react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { ExternalLink, Github, Star, GitFork, ArrowUpRight } from "lucide-react";
 import { Project } from "../data/projectsData";
-import { useLanguage } from "./LanguageProvider";
+import { Link } from "react-router-dom";
 
 interface ProjectCardProps {
   project: Project;
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  const { t } = useLanguage();
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   return (
-    <div className="group rounded-3xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-gray-200/80 dark:border-gray-800/80 overflow-hidden shadow-lg hover:shadow-2xl hover:border-[var(--brand-cyan)] hover:-translate-y-2 transition-all duration-500 flex flex-col justify-between h-full">
-      {/* Image Preview Header */}
-      <div className="relative aspect-video w-full overflow-hidden bg-slate-950">
+    <motion.div
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      data-cursor="project"
+      className="relative group w-full h-[450px] rounded-3xl overflow-hidden bg-[#0A0F1E] border border-white/5 transition-all duration-500 hover:border-brand-cyan/30"
+    >
+      {/* Background Image with Parallax */}
+      <div className="absolute inset-0 z-0">
         <img
           src={project.image}
           alt={project.title}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-95 group-hover:brightness-100"
+          className="w-full h-full object-cover opacity-40 group-hover:scale-110 transition-transform duration-700 ease-out grayscale group-hover:grayscale-0"
         />
-
-        {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
-
-        {/* Category Pill */}
-        <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-wider">
-          {project.category}
-        </span>
-
-        {/* GitHub stats if present */}
-        {(project.stars || project.forks) && (
-          <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-white/20 text-white text-xs font-mono">
-            {project.stars && (
-              <span className="flex items-center gap-1">
-                <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                {project.stars}
-              </span>
-            )}
-            {project.forks && (
-              <span className="flex items-center gap-1">
-                <GitFork className="w-3.5 h-3.5 text-cyan-400" />
-                {project.forks}
-              </span>
-            )}
-          </div>
-        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#05070B] via-[#05070B]/80 to-transparent" />
       </div>
 
-      {/* Content Section */}
-      <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-        <div>
-          <h3 className="text-xl font-extrabold text-gray-900 dark:text-white mb-2 group-hover:text-[var(--brand-cyan)] transition-colors">
-            {project.title}
-          </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 leading-relaxed">
-            {project.description}
-          </p>
-        </div>
+      {/* Dynamic Glow that follows mouse inside */}
+      <motion.div
+        className="absolute inset-0 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"
+        style={{
+          background: useTransform(
+            [mouseXSpring, mouseYSpring],
+            ([x, y]) => `radial-gradient(circle at ${(x + 0.5) * 100}% ${(y + 0.5) * 100}%, rgba(0, 212, 255, 0.15), transparent 80%)`
+          ),
+        }}
+      />
 
-        {/* Tech Stack Tags */}
-        <div className="flex flex-wrap gap-2 pt-2">
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-300 border border-gray-200/50 dark:border-gray-700/50"
-            >
+      {/* Content */}
+      <div className="relative z-20 h-full p-8 flex flex-col justify-end translate-z-[50px]">
+        {/* Tech Badges */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.tags.slice(0, 3).map((tag) => (
+            <span key={tag} className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold text-gray-400 uppercase tracking-widest">
               {tag}
             </span>
           ))}
         </div>
+
+        <h3 className="text-2xl sm:text-3xl font-black text-white mb-3 group-hover:text-brand-cyan transition-colors leading-tight">
+          {project.title}
+        </h3>
+
+        <p className="text-sm text-gray-400 mb-6 line-clamp-2 leading-relaxed">
+          {project.description}
+        </p>
+
+        {/* Footer Metrics & Actions */}
+        <div className="flex items-center justify-between mt-auto">
+          <div className="flex items-center gap-4 text-gray-500 text-xs font-mono">
+            {project.stars && (
+              <span className="flex items-center gap-1.5">
+                <Star className="w-3.5 h-3.5 text-brand-gold" /> {project.stars}
+              </span>
+            )}
+            {project.forks && (
+              <span className="flex items-center gap-1.5">
+                <GitFork className="w-3.5 h-3.5" /> {project.forks}
+              </span>
+            )}
+          </div>
+
+          <div className="flex gap-3">
+            {project.githubUrl && (
+              <a href={project.githubUrl} target="_blank" className="p-2.5 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-all">
+                <Github className="w-5 h-5" />
+              </a>
+            )}
+            <Link to={`/project/${project.title}`} className="p-2.5 rounded-full bg-brand-cyan text-black hover:scale-110 transition-transform">
+              <ArrowUpRight className="w-5 h-5" />
+            </Link>
+          </div>
+        </div>
       </div>
 
-      {/* Footer Links */}
-      <div className="p-6 pt-0 flex items-center gap-3">
-        {project.liveUrl && (
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[var(--brand-cyan)] to-[var(--brand-purple)] text-white font-bold text-xs shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300"
-          >
-            <ExternalLink className="w-4 h-4" />
-            <span>{t("liveDemo") || "Live Demo"}</span>
-          </a>
-        )}
-
-        {project.githubUrl && (
-          <a
-            href={project.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub Repository"
-            className="p-2.5 rounded-xl bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:text-[var(--brand-cyan)] hover:border-[var(--brand-cyan)] transition-colors"
-          >
-            <Github className="w-5 h-5" />
-          </a>
-        )}
-      </div>
-    </div>
+      {/* Glassy Border Reveal */}
+      <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-brand-cyan/20 transition-all pointer-events-none z-30" />
+    </motion.div>
   );
 }
