@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { Cpu, Code, Layers, Smartphone, Terminal } from "lucide-react";
+import { useLanguage } from "./LanguageProvider";
 
 export function Experience() {
+  const { t } = useLanguage();
   const roadmap = [
     {
       year: "2021",
@@ -50,7 +52,7 @@ export function Experience() {
             whileInView={{ opacity: 1, y: 0 }}
             className="text-4xl sm:text-6xl font-black text-white mb-6 uppercase tracking-tight"
           >
-            Evolutionary <span className="text-brand-cyan">Timeline</span>
+            Evolutionary <span className="text-brand-cyan">{t("experienceTitle")}</span>
           </motion.h2>
           <p className="text-gray-500 uppercase tracking-widest text-xs font-bold">The journey of a software architect</p>
         </div>

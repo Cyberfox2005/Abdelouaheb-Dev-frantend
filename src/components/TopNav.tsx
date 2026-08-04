@@ -46,13 +46,13 @@ export function TopNav() {
   };
 
   const navLinks = [
-    { id: "home", label: t("home") || "Home" },
-    { id: "about", label: t("about") || "About" },
-    { id: "skills", label: t("skills") || "Skills" },
-    { id: "experience", label: "Timeline" },
-    { id: "services", label: t("services") || "Services" },
-    { id: "projects", label: t("projects") || "Projects" },
-    { id: "contact", label: t("contact") || "Contact" },
+    { id: "home", label: t("home") },
+    { id: "about", label: t("about") },
+    { id: "skills", label: t("skills") },
+    { id: "experience", label: t("experienceTitle") },
+    { id: "services", label: t("services") },
+    { id: "projects", label: t("projects") },
+    { id: "contact", label: t("contact") },
   ];
 
   return (

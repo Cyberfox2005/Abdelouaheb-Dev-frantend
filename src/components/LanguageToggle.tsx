@@ -1,46 +1,77 @@
-import { Languages } from 'lucide-react';
+import { Languages, Check } from 'lucide-react';
 import { useLanguage } from './LanguageProvider';
 import { Language } from '../translations';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useRef, useEffect } from 'react';
 
 export function LanguageToggle() {
   const { language, setLanguage } = useLanguage();
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const languages: { code: Language; label: string; flag: string }[] = [
-    { code: 'en', label: 'English', flag: '🇬🇧' },
-    { code: 'fr', label: 'Français', flag: '🇫🇷' }
+    { code: 'en', label: 'English', flag: 'EN' },
+    { code: 'ar', label: 'العربية', flag: 'AR' },
+    { code: 'fr', label: 'Français', flag: 'FR' }
   ];
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <div className="relative group">
-      <button
-        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-brand-cyan dark:hover:border-brand-cyan transition-all shadow-sm"
-        aria-label="Change language"
+    <div className="relative" ref={dropdownRef}>
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 hover:border-brand-cyan/30 transition-all text-white shadow-sm"
       >
-        <Languages className="h-5 w-5 text-brand-cyan" />
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <Languages className="h-4 w-4 text-brand-cyan" />
+        <span className="text-[10px] font-black tracking-widest uppercase">
           {languages.find(l => l.code === language)?.flag}
         </span>
-      </button>
+      </motion.button>
       
-      <div className="absolute top-full mt-2 right-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 min-w-[160px]">
-        {languages.map((lang) => (
-          <button
-            key={lang.code}
-            onClick={() => setLanguage(lang.code)}
-            className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors first:rounded-t-lg last:rounded-b-lg ${
-              language === lang.code
-                ? 'bg-brand-cyan/10 dark:bg-brand-cyan/20 text-brand-cyan'
-                : 'text-gray-700 dark:text-gray-300'
-            }`}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            className="absolute top-full mt-3 right-0 bg-[#0A0F1E] border border-white/5 rounded-2xl shadow-2xl z-50 min-w-[180px] overflow-hidden p-2"
           >
-            <span className="text-lg">{lang.flag}</span>
-            <span className="text-sm font-medium">{lang.label}</span>
-            {language === lang.code && (
-              <span className="ml-auto text-brand-cyan">✓</span>
-            )}
-          </button>
-        ))}
-      </div>
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => {
+                  setLanguage(lang.code);
+                  setIsOpen(false);
+                }}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all ${
+                  language === lang.code
+                    ? 'bg-brand-cyan/10 text-brand-cyan'
+                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-[10px] font-bold opacity-50">{lang.flag}</span>
+                  <span className="text-sm font-bold tracking-tight">{lang.label}</span>
+                </div>
+                {language === lang.code && (
+                  <Check className="h-4 w-4" />
+                )}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

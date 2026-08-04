@@ -1,9 +1,11 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Github, Linkedin, Mail, MousePointer2, Terminal } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Mail, Terminal } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { Logo } from "./Logo";
+import { useLanguage } from "./LanguageProvider";
 
 export function Hero() {
+  const { t } = useLanguage();
   const [bootText, setBootText] = useState("");
   const [bootComplete, setBootComplete] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -42,6 +44,15 @@ export function Hero() {
     const { innerWidth, innerHeight } = window;
     mouseX.current = (clientX - innerWidth / 2) / 25;
     mouseY.current = (clientY - innerHeight / 2) / 25;
+  };
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const yOffset = -80;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
   };
 
   return (
@@ -85,39 +96,37 @@ export function Hero() {
               </div>
 
               <h1 className="text-5xl sm:text-7xl xl:text-8xl font-black text-white leading-[0.9] mb-8">
-                Building Digital<br />
+                {t("heroTitle").split(' ').slice(0, 2).join(' ')}<br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple">
-                  Experiences
+                  {t("heroTitle").split(' ').slice(2, 3)}
                 </span><br />
-                Beyond Code.
+                {t("heroTitle").split(' ').slice(3).join(' ')}
               </h1>
 
               <p className="text-lg text-gray-400 max-w-xl mb-12 leading-relaxed">
-                Software Engineer specializing in <span className="text-white font-medium">Flutter</span>,
-                <span className="text-white font-medium"> Kotlin</span>,
-                <span className="text-white font-medium"> Spring Boot</span>, and
-                <span className="text-white font-medium"> Backend Architecture</span>.
-                Crafting futuristic cross-platform solutions.
+                {t("heroSubtitle")}
               </p>
 
               <div className="flex flex-wrap gap-6">
                 <motion.button
                   whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0, 212, 255, 0.4)" }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => scrollToSection("projects")}
                   className="px-8 py-4 bg-brand-cyan text-black font-bold rounded-xl flex items-center gap-3 transition-shadow"
                 >
-                  Explore Projects <ArrowRight className="w-5 h-5" />
+                  {t("viewProjects")} <ArrowRight className="w-5 h-5" />
                 </motion.button>
 
                 <div className="flex items-center gap-4">
                   {[
-                    { icon: Github, href: "#" },
-                    { icon: Linkedin, href: "#" },
-                    { icon: Mail, href: "#" }
+                    { icon: Github, href: "https://github.com/Cyberfox2005" },
+                    { icon: Linkedin, href: "https://www.linkedin.com/in/abdelouhab-benachi-4628632b0/" },
+                    { icon: Mail, href: "mailto:ben689533@gmail.com" }
                   ].map((social, i) => (
                     <motion.a
                       key={i}
                       href={social.href}
+                      target="_blank"
                       whileHover={{ y: -5, color: "#00D4FF" }}
                       className="w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center text-gray-500 hover:border-brand-cyan/50 transition-colors"
                     >

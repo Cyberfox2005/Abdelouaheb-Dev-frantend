@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Github, Linkedin, Mail, MessageSquare, CheckCircle2 } from "lucide-react";
+import { Send, Github, Linkedin, Mail, MessageSquare } from "lucide-react";
 import { toast } from "sonner";
+import { useLanguage } from "./LanguageProvider";
 
 export function Contact() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -34,7 +36,7 @@ export function Contact() {
             viewport={{ once: true }}
           >
             <h2 className="text-5xl sm:text-7xl font-black text-white mb-8 uppercase tracking-tighter">
-              Initiate <span className="text-brand-cyan">Contact</span>
+              {t("contact").split(' ')[0]} <span className="text-brand-cyan">{t("contact").split(' ')[1] || "Contact"}</span>
             </h2>
             <p className="text-lg text-gray-500 mb-12 max-w-md leading-relaxed">
               Every great application begins with an idea. Let's synchronize and build your digital vision into reality.
@@ -63,14 +65,19 @@ export function Contact() {
             </div>
 
             <div className="flex gap-4">
-              {[Github, Linkedin, Mail].map((Icon, i) => (
+              {[
+                { icon: Github, href: "https://github.com/Cyberfox2005" },
+                { icon: Linkedin, href: "https://www.linkedin.com/in/abdelouhab-benachi-4628632b0/" },
+                { icon: Mail, href: "mailto:ben689533@gmail.com" }
+              ].map((social, i) => (
                 <motion.a
                   key={i}
-                  href="#"
+                  href={social.href}
+                  target="_blank"
                   whileHover={{ y: -5, color: "#00D4FF" }}
                   className="w-14 h-14 rounded-2xl border border-white/5 flex items-center justify-center text-gray-500 hover:border-brand-cyan/30 transition-all bg-white/5"
                 >
-                  <Icon className="w-6 h-6" />
+                  <social.icon className="w-6 h-6" />
                 </motion.a>
               ))}
             </div>
@@ -95,7 +102,7 @@ export function Contact() {
                     placeholder=" "
                   />
                   <label className="absolute left-0 top-4 text-gray-500 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-brand-cyan peer-focus:text-xs peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-brand-cyan peer-[:not(:placeholder-shown)]:text-xs">
-                    Operator Identity
+                    {t("yourName")}
                   </label>
                 </div>
 
@@ -109,7 +116,7 @@ export function Contact() {
                     placeholder=" "
                   />
                   <label className="absolute left-0 top-4 text-gray-500 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-brand-cyan peer-focus:text-xs peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-brand-cyan peer-[:not(:placeholder-shown)]:text-xs">
-                    Communication Protocol (Email)
+                    {t("yourEmail")}
                   </label>
                 </div>
 
@@ -123,7 +130,7 @@ export function Contact() {
                     placeholder=" "
                   />
                   <label className="absolute left-0 top-4 text-gray-500 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-brand-cyan peer-focus:text-xs peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-brand-cyan peer-[:not(:placeholder-shown)]:text-xs">
-                    Mission Brief
+                    {t("yourMessage")}
                   </label>
                 </div>
 
@@ -133,7 +140,7 @@ export function Contact() {
                   disabled={isSubmitting}
                   className="w-full py-5 rounded-2xl bg-brand-cyan text-black font-black uppercase tracking-widest shadow-[0_0_30px_rgba(0,212,255,0.2)] hover:shadow-[0_0_40px_rgba(0,212,255,0.4)] transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                 >
-                  {isSubmitting ? "Transmitting..." : <>Transmit Message <Send className="w-5 h-5" /></>}
+                  {isSubmitting ? t("sending") : <>{t("sendMessage")} <Send className="w-5 h-5" /></>}
                 </motion.button>
               </div>
             </form>
