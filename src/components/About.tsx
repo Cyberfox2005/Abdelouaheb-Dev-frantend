@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Zap, Shield, Target } from "lucide-react";
-import personalPhoto from "../assets/";
+import brandPortrait from "../assets/db191a8f1dc496e096a90c96c3790591f1a9bf77.png";
 
 export function About() {
   return (
@@ -48,7 +48,7 @@ export function About() {
             </div>
           </motion.div>
 
-          {/* Personal Photo Visualization */}
+          {/* Brand Portrait Visualization */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -72,9 +72,9 @@ export function About() {
               <div className="relative z-10 w-64 h-64 sm:w-80 sm:h-80 rounded-3xl border border-white/10 shadow-2xl flex items-center justify-center group overflow-hidden bg-slate-900">
                 <div className="absolute inset-0 bg-brand-cyan/5 group-hover:bg-transparent transition-colors z-20" />
                 <img
-                  src={personalPhoto}
-                  alt="Abdelouaheb Benachi"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100"
+                  src={brandPortrait}
+                  alt="YUGURTHA DEV Portrait"
+                  className="w-full h-full object-cover transition-all duration-700 scale-110 group-hover:scale-100"
                 />
               </div>
             </div>
