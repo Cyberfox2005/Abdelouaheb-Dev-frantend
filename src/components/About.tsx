@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Zap, Shield, Target } from "lucide-react";
-import personalPhoto from "../assets/photo_2026-03-22_17-55-35.jpg";
+import personalPhoto from "../assets/";
 
 export function About() {
   return (
