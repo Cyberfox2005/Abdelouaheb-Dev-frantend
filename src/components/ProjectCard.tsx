@@ -69,18 +69,25 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {/* Content */}
       <div className="relative z-20 h-full p-8 flex flex-col justify-end translate-z-[50px]">
-        {/* Tech Badges */}
-        <div className="flex flex-wrap gap-2 mb-4">
+        {/* Tech Badges & Screenshot Indicator */}
+        <div className="flex flex-wrap items-center gap-2 mb-4">
           {project.tags.slice(0, 3).map((tag) => (
             <span key={tag} className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold text-gray-400 uppercase tracking-widest">
               {tag}
             </span>
           ))}
+          {project.screenshots && project.screenshots.length > 0 && (
+            <span className="px-2.5 py-0.5 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 text-[9px] font-black text-brand-cyan uppercase tracking-wider">
+              {project.screenshots.length} Screens
+            </span>
+          )}
         </div>
 
-        <h3 className="text-2xl sm:text-3xl font-black text-white mb-3 group-hover:text-brand-cyan transition-colors leading-tight">
-          {project.title}
-        </h3>
+        <Link to={`/project/${project.id}`}>
+          <h3 className="text-2xl sm:text-3xl font-black text-white mb-3 hover:text-brand-cyan transition-colors leading-tight">
+            {project.title}
+          </h3>
+        </Link>
 
         <p className="text-sm text-gray-400 mb-6 line-clamp-2 leading-relaxed">
           {project.description}
@@ -107,7 +114,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 <Github className="w-5 h-5" />
               </a>
             )}
-            <Link to={`/project/${project.title}`} className="p-2.5 rounded-full bg-brand-cyan text-black hover:scale-110 transition-transform">
+            <Link to={`/project/${project.id}`} className="p-2.5 rounded-full bg-brand-cyan text-black hover:scale-110 transition-transform" aria-label={`View ${project.title} details`}>
               <ArrowUpRight className="w-5 h-5" />
             </Link>
           </div>

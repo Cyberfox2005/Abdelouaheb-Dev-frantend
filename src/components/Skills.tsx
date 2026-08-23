@@ -1,59 +1,72 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { skillsData } from "../data/skillsData";
+import { skillsData, SkillItem } from "../data/skillsData";
 import { useLanguage } from "./LanguageProvider";
-
-import { SkillItem } from "../data/skillsData";
+import { TechLogos } from "./TechLogos";
+import { Shield, Zap, Cpu, Code2, Globe, Layers } from "lucide-react";
 
 export function Skills() {
   const { t } = useLanguage();
-  const [activeCategory, setActiveCategory] = useState<SkillItem["category"] | "all">("all");
+  const [activeCategory, setActiveCategory] = useState<SkillItem["category"] | "All">("All");
 
-  const categories: { id: SkillItem["category"] | "all"; label: string }[] = [
-    { id: "all", label: "Unified Intelligence" },
-    { id: "frontend", label: "UI Engineering" },
-    { id: "backend", label: "Core Systems" },
-    { id: "tools", label: "Deployment & OPS" }
+  const categories: { id: SkillItem["category"] | "All"; label: string; icon: any }[] = [
+    { id: "All", label: "Unified Intelligence", icon: Globe },
+    { id: "CrossPlatform", label: "Mobile / Cross-Platform", icon: Zap },
+    { id: "Backend", label: "Backend & Cloud", icon: Cpu },
+    { id: "Frontend", label: "Frontend Engineering", icon: Code2 },
+    { id: "Systems", label: "Systems & Low-Level", icon: Shield },
+    { id: "DevOps", label: "DevOps & Tooling", icon: Layers },
   ];
 
-  const filteredSkills = skillsData.filter(s => activeCategory === "all" ? true : s.category === activeCategory);
+  const filteredSkills = skillsData.filter(s => activeCategory === "All" ? true : s.category === activeCategory);
 
   return (
     <section id="skills" className="py-32 bg-[#05070B] relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] border border-white/5 rounded-full pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] border border-white/5 rounded-full pointer-events-none" />
+      {/* Background visual atmosphere */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,212,255,0.05),transparent_70%)]" />
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
-        <div className="text-center mb-20">
+        <div className="text-center mb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/5 bg-white/[0.02] backdrop-blur-md mb-6"
+          >
+            <Zap className="w-4 h-4 text-brand-cyan" />
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Engineering Headquarters</span>
+          </motion.div>
+
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-4xl sm:text-6xl font-black text-white mb-6 uppercase tracking-tight"
+            transition={{ delay: 0.1 }}
+            className="text-5xl sm:text-7xl font-black text-white mb-12 uppercase tracking-tighter"
           >
-            Technological <span className="text-brand-cyan">Arsenal</span>
+            Technological <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-purple">Arsenal</span>
           </motion.h2>
-          <div className="flex flex-wrap justify-center gap-4">
+
+          <div className="flex flex-wrap justify-center gap-3">
             {categories.map((cat) => (
               <button
                 key={cat.id}
-                onClick={() => setActiveCategory(cat.id as any)}
-                className={`px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase transition-all duration-300 border ${
+                onClick={() => setActiveCategory(cat.id)}
+                className={`flex items-center gap-3 px-6 py-3.5 rounded-2xl text-[10px] font-black tracking-widest uppercase transition-all duration-500 border ${
                   activeCategory === cat.id
-                    ? "bg-brand-cyan text-black border-brand-cyan"
-                    : "bg-transparent text-gray-500 border-white/10 hover:border-brand-cyan/50"
+                    ? "bg-brand-cyan text-black border-brand-cyan shadow-[0_0_40px_rgba(0,212,255,0.3)]"
+                    : "bg-transparent text-gray-500 border-white/5 hover:border-brand-cyan/20 hover:text-white"
                 }`}
               >
+                <cat.icon className="w-4 h-4" />
                 {cat.label}
               </button>
             ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
           <AnimatePresence mode="popLayout">
             {filteredSkills.map((skill, i) => (
-              <SkillOrb key={skill.name} skill={skill} index={i} />
+              <SkillCard key={skill.name} skill={skill} index={i} />
             ))}
           </AnimatePresence>
         </div>
@@ -62,64 +75,58 @@ export function Skills() {
   );
 }
 
-function SkillOrb({ skill, index }: { skill: SkillItem; index: number }) {
+function SkillCard({ skill, index }: { skill: SkillItem; index: number }) {
+  const LogoComponent = (TechLogos as any)[skill.logoId] || TechLogos.React;
+
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+      initial={{ opacity: 0, scale: 0.9, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.8, y: -20 }}
+      exit={{ opacity: 0, scale: 0.9, y: -20 }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
       whileHover={{ y: -10 }}
-      className="group relative flex flex-col items-center"
+      className="group relative"
     >
-      {/* The Orb */}
-      <div className="relative w-32 h-32 mb-4">
-        {/* Glowing Aura */}
-        <div className="absolute inset-0 bg-brand-cyan/10 rounded-full blur-xl group-hover:bg-brand-cyan/20 transition-all duration-500" />
+      <div className="relative h-full p-8 rounded-3xl bg-[#0A0F1E] border border-white/5 overflow-hidden transition-all duration-500 group-hover:border-brand-cyan/30 group-hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
+        {/* Hover Ambient Light */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-cyan/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-        {/* Animated Rings */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          className="absolute inset-0 border border-dashed border-white/10 rounded-full"
-        />
+        {/* Tech Logo Frame */}
+        <div className="relative z-10 w-20 h-20 mb-8 p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 group-hover:border-brand-cyan/40 group-hover:bg-white/[0.06] transition-all duration-500 shadow-inner flex items-center justify-center group-hover:scale-110">
+           <LogoComponent className="w-full h-full object-contain drop-shadow-[0_0_12px_rgba(255,255,255,0.15)]" />
+           {/* Logo Glow */}
+           <div className="absolute inset-0 blur-xl opacity-0 group-hover:opacity-30 transition-opacity">
+              <LogoComponent className="w-full h-full" />
+           </div>
+        </div>
 
-        {/* Inner Content */}
-        <div className="absolute inset-2 bg-gradient-to-b from-[#101827] to-[#05070B] rounded-full border border-white/5 flex flex-col items-center justify-center p-4 shadow-2xl">
-          <motion.div
-            animate={{ y: [0, -5, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: index * 0.2 }}
-            className="text-brand-cyan mb-1"
-          >
-            {/* Symbol or Initials */}
-            <span className="text-xl font-black">{skill.name.substring(0, 2).toUpperCase()}</span>
-          </motion.div>
+        <div className="relative z-10">
+          <h3 className="text-lg font-black text-white mb-2 group-hover:text-brand-cyan transition-colors uppercase tracking-tight">
+            {skill.name}
+          </h3>
+          <div className="text-[9px] font-mono text-gray-500 uppercase tracking-widest mb-4 flex items-center justify-between">
+            <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Completed
+            </span>
+            <span className="text-brand-cyan font-bold font-mono">100%</span>
+          </div>
 
-          <div className="text-[8px] font-mono text-gray-500 uppercase tracking-tighter">
-            Stability: {skill.level}%
+          {/* Minimalist Progress Bar */}
+          <div className="w-full h-[2px] bg-white/5 rounded-full overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: `${skill.level}%` }}
+              transition={{ duration: 1.5, delay: 0.3 }}
+              className="h-full bg-gradient-to-r from-brand-cyan to-brand-purple shadow-[0_0_10px_#00D4FF]"
+            />
           </div>
         </div>
 
-        {/* Level Indicator (Arc) */}
-        <svg className="absolute inset-0 w-full h-full -rotate-90">
-          <circle
-            cx="64"
-            cy="64"
-            r="60"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeDasharray={377}
-            strokeDashoffset={377 - (377 * skill.level) / 100}
-            className="text-brand-cyan opacity-40 group-hover:opacity-100 transition-opacity"
-          />
-        </svg>
+        {/* Glossy Corner Refraction */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-white/[0.02] rotate-45 translate-x-16 -translate-y-16 pointer-events-none" />
       </div>
-
-      <h3 className="text-sm font-bold text-white group-hover:text-brand-cyan transition-colors tracking-tight text-center uppercase">
-        {skill.name}
-      </h3>
     </motion.div>
   );
 }

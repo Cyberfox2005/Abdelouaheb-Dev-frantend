@@ -96,16 +96,18 @@ export function Hero() {
                 System Active
               </div>
 
-              <h1 className="text-5xl sm:text-7xl xl:text-8xl font-black text-white leading-[0.9] mb-8">
-                {t("heroTitle").split(' ').slice(0, 2).join(' ')}<br />
+              <h1 className="text-6xl sm:text-8xl xl:text-9xl font-black text-white leading-[0.85] mb-10 uppercase tracking-tighter">
+                Engineering<br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan via-brand-blue to-brand-purple">
-                  {t("heroTitle").split(' ').slice(2, 3)}
+                  Digital
                 </span><br />
-                {t("heroTitle").split(' ').slice(3).join(' ')}
+                Monoliths.
               </h1>
 
-              <p className="text-lg text-gray-400 max-w-xl mb-12 leading-relaxed">
-                {t("heroSubtitle")}
+              <p className="text-xl text-gray-400 max-w-xl mb-16 leading-relaxed font-light">
+                Redefining software excellence through <span className="text-white font-medium">precision engineering</span>,
+                <span className="text-white font-medium"> scalable architectures</span>, and
+                <span className="text-white font-medium"> futuristic cross-platform</span> intelligence.
               </p>
 
               <div className="flex flex-wrap gap-6">

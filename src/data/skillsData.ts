@@ -1,35 +1,39 @@
 export interface SkillItem {
   name: string;
   level: number; // 0 - 100
-  category: "frontend" | "tools" | "backend";
-  icon: string;
-  highlight?: boolean;
+  category: "Frontend" | "Backend" | "CrossPlatform" | "Systems" | "DevOps";
+  logoId: string;
 }
 
 export const skillsData: SkillItem[] = [
-  // Frontend
-  { name: "React / React 18", level: 95, category: "frontend", icon: "Code2", highlight: true },
-  { name: "JavaScript (ES6+)", level: 92, category: "frontend", icon: "FileCode", highlight: true },
-  { name: "TypeScript", level: 88, category: "frontend", icon: "FileJson", highlight: true },
-  { name: "Tailwind CSS", level: 95, category: "frontend", icon: "Palette", highlight: true },
-  { name: "HTML5 / CSS3", level: 98, category: "frontend", icon: "Layout", highlight: true },
-  { name: "Framer Motion", level: 85, category: "frontend", icon: "Sparkles" },
-  { name: "Vue.js", level: 80, category: "frontend", icon: "Boxes" },
-  { name: "React Native", level: 85, category: "frontend", icon: "Smartphone", highlight: true },
+  // Cross-Platform & Mobile
+  { name: "Flutter", level: 100, category: "CrossPlatform", logoId: "Flutter" },
+  { name: "Android", level: 100, category: "CrossPlatform", logoId: "Android" },
+  { name: "React Native", level: 100, category: "CrossPlatform", logoId: "ReactNative" },
 
-  // Tools & Workflow
-  { name: "Git & GitHub", level: 92, category: "tools", icon: "GitBranch", highlight: true },
-  { name: "Vite / npm", level: 90, category: "tools", icon: "Zap", highlight: true },
-  { name: "VS Code", level: 96, category: "tools", icon: "Terminal" },
-  { name: "Figma", level: 82, category: "tools", icon: "Figma" },
-  { name: "Postman", level: 88, category: "tools", icon: "Send" },
-  { name: "Docker Basic", level: 75, category: "tools", icon: "Container" },
+  // Frontend Engineering
+  { name: "React", level: 100, category: "Frontend", logoId: "React" },
+  { name: "TypeScript", level: 100, category: "Frontend", logoId: "TypeScript" },
+  { name: "JavaScript", level: 100, category: "Frontend", logoId: "JavaScript" },
+  { name: "Tailwind CSS", level: 100, category: "Frontend", logoId: "TailwindCSS" },
 
-  // Backend & Databases
-  { name: "Node.js / Express", level: 88, category: "backend", icon: "Server", highlight: true },
-  { name: "Laravel (PHP)", level: 86, category: "backend", icon: "Database", highlight: true },
-  { name: "Python / Django", level: 82, category: "backend", icon: "Cpu" },
-  { name: "MySQL / PostgreSQL", level: 88, category: "backend", icon: "Database" },
-  { name: "Firebase", level: 85, category: "backend", icon: "Flame" },
-  { name: "C++ / C#", level: 80, category: "backend", icon: "Terminal" },
+  // Backend & Cloud
+  { name: "Kotlin", level: 100, category: "Backend", logoId: "Kotlin" },
+  { name: "Java", level: 100, category: "Backend", logoId: "Java" },
+  { name: "Spring Boot", level: 100, category: "Backend", logoId: "SpringBoot" },
+  { name: "Laravel", level: 100, category: "Backend", logoId: "Laravel" },
+  { name: "Django", level: 100, category: "Backend", logoId: "Django" },
+  { name: "Python", level: 100, category: "Backend", logoId: "Python" },
+  { name: "Node.js", level: 100, category: "Backend", logoId: "NodeJS" },
+  { name: "PostgreSQL", level: 100, category: "Backend", logoId: "PostgreSQL" },
+  { name: "Firebase", level: 100, category: "Backend", logoId: "Firebase" },
+
+  // Systems & Architecture
+  { name: "C++", level: 100, category: "Systems", logoId: "Cpp" },
+  { name: "Linux", level: 100, category: "Systems", logoId: "Linux" },
+
+  // DevOps & Tooling
+  { name: "Docker", level: 100, category: "DevOps", logoId: "Docker" },
+  { name: "Git & GitHub", level: 100, category: "DevOps", logoId: "Git" },
 ];
+

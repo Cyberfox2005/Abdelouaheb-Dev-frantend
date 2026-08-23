@@ -9,7 +9,10 @@ export function ProjectPage() {
   const { title } = useParams<{ title: string }>();
   const navigate = useNavigate();
   
-  const project = projectsData.find(p => p.title === decodeURIComponent(title || ''));
+  const project = projectsData.find(
+    p => p.title.toLowerCase() === decodeURIComponent(title || '').toLowerCase() ||
+         p.id.toLowerCase() === decodeURIComponent(title || '').toLowerCase()
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);

@@ -5,7 +5,7 @@ import { Logo } from "./Logo";
 export function IntroLoader() {
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState("");
-  const fullText = "INITIALIZING YUGURTHA_DEV OS...";
+  const fullText = "INITIALIZING_SYSTEM_CORE... [OK]";
 
   useEffect(() => {
     const hasSeenIntro = sessionStorage.getItem("hasSeenIntro");
@@ -20,12 +20,12 @@ export function IntroLoader() {
       setText(fullText.slice(0, i));
       i++;
       if (i > fullText.length) clearInterval(interval);
-    }, 50);
+    }, 400);
 
     const timer = setTimeout(() => {
       setLoading(false);
       sessionStorage.setItem("hasSeenIntro", "true");
-    }, 3500);
+    }, 4500);
 
     return () => {
       clearInterval(interval);
@@ -38,46 +38,44 @@ export function IntroLoader() {
       {loading && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.1 }}
-          transition={{ duration: 1, ease: "easeInOut" }}
+          exit={{ opacity: 0, scale: 1.1, filter: "blur(20px)" }}
+          transition={{ duration: 1.5, ease: "circIn" }}
           className="fixed inset-0 z-[100] bg-[#05070B] flex flex-col items-center justify-center p-4"
         >
-          {/* Scanning Effect */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <motion.div
-              initial={{ top: "-10%" }}
-              animate={{ top: "110%" }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              className="absolute h-[10vh] w-full bg-gradient-to-b from-transparent via-brand-cyan/10 to-transparent shadow-[0_0_50px_rgba(0,212,255,0.1)]"
-            />
-          </div>
+          {/* Energy Core Point */}
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: [0, 1, 0.8], opacity: [0, 1, 0.5] }}
+            transition={{ duration: 2, times: [0, 0.5, 1] }}
+            className="absolute w-1 h-1 bg-brand-cyan rounded-full shadow-[0_0_100px_40px_rgba(0,212,255,0.4)]"
+          />
 
           <div className="relative">
-            {/* Logo Reveal */}
+            {/* Logo Assembly */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
-              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-              transition={{ duration: 1.5, delay: 0.5 }}
-              className="mb-12"
+              initial={{ opacity: 0, scale: 0.5, letterSpacing: "2em" }}
+              animate={{ opacity: 1, scale: 1, letterSpacing: "0.2em" }}
+              transition={{ duration: 3, delay: 0.5, ease: "easeOut" }}
+              className="mb-16"
             >
-              <Logo variant="cinematic" className="w-32 h-32" />
+              <Logo variant="cinematic" className="w-48 h-48" />
             </motion.div>
 
-            {/* Glowing Aura behind logo */}
+            {/* Scanning Light Ring */}
             <motion.div
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 0.3 }}
-              transition={{ duration: 2, delay: 0.8 }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-brand-cyan rounded-full blur-[80px]"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 2, opacity: [0, 0.2, 0] }}
+              transition={{ duration: 2, delay: 1, repeat: Infinity }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-brand-cyan rounded-full"
             />
           </div>
 
-          {/* Terminal Style Loading Text */}
-          <div className="flex flex-col items-center gap-4">
+          {/* System Terminal Readout */}
+          <div className="flex flex-col items-center gap-6">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="font-mono text-brand-cyan text-sm tracking-wider"
+              className="font-mono text-brand-cyan text-[10px] tracking-[0.5em] uppercase font-black"
             >
               {text}
               <motion.span
@@ -88,24 +86,17 @@ export function IntroLoader() {
               </motion.span>
             </motion.div>
 
-            {/* Progress Bar */}
-            <div className="w-64 h-1 bg-white/5 rounded-full overflow-hidden border border-white/5">
-              <motion.div
-                initial={{ width: "0%" }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 3, ease: "easeInOut" }}
-                className="h-full bg-gradient-to-r from-brand-cyan to-brand-purple"
-              />
+            <div className="flex gap-1">
+              {[...Array(5)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0.1 }}
+                  animate={{ opacity: [0.1, 1, 0.1] }}
+                  transition={{ duration: 1, delay: i * 0.1, repeat: Infinity }}
+                  className="w-8 h-[2px] bg-brand-cyan"
+                />
+              ))}
             </div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 1, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, delay: 2.5 }}
-              className="text-[10px] text-gray-600 uppercase tracking-widest mt-2"
-            >
-              System Ready
-            </motion.div>
           </div>
         </motion.div>
       )}
